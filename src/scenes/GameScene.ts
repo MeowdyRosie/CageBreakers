@@ -1,6 +1,7 @@
 import { BaseScene } from "@/scenes/BaseScene";
 import { Player } from "@/components/Player";
 import { UI } from "@/components/UI";
+import { Button } from "@/components/elements/Button";
 
 export class GameScene extends BaseScene {
 	private background: Phaser.GameObjects.Image;
@@ -8,6 +9,9 @@ export class GameScene extends BaseScene {
   private kobolds: Phaser.GameObjects.Image;
 	private player: Player;
 	private ui: UI;
+
+	private nbPoints = 6;
+	private pointImage: Phaser.GameObjects.Sprite;
 
 	constructor() {
 		super({ key: "GameScene" });
@@ -42,9 +46,15 @@ export class GameScene extends BaseScene {
 		const distance: number = 200;
 
 		this.fitToScreen(this.background);
-		for (let i = 0; i < 6; i++) {
-			const p = (Math.PI * 2) * (i / 6);
-			this.add.circle(startX + Math.cos(p) * distance, startY + Math.sin(p) * distance, 50, 0xFF0000);
+		for (let i = 0; i < this.nbPoints; i++) {
+			const p = (Math.PI * 2) * (i / this.nbPoints);
+			const x = startX + Math.cos(p) * distance;
+			const y = startY + Math.sin(p) * distance;
+			console.log();
+			const btn = new Button(this, x, y);
+			this.pointImage = new Phaser.GameObjects.Sprite(this, 0, 0, "");
+			btn.add(this.pointImage);
+			
 		}
 
 		this.ui = new UI(this);
