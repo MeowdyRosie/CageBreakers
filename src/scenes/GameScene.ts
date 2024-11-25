@@ -5,6 +5,7 @@ import { Button } from "@/components/elements/Button";
 
 export class GameScene extends BaseScene {
 	private background: Phaser.GameObjects.Image;
+	private dragon: Phaser.GameObjects.Image;
 	private player: Player;
 	private ui: UI;
 
@@ -19,10 +20,10 @@ export class GameScene extends BaseScene {
 		this.fade(false, 200, 0x000000);
 
 		this.background = this.add.image(0, 0, "background");
-		this.background.setOrigin(0);
-
+		this.dragon = this.add.image(this.CX, 300, "dragon");
+		this.dragon.setScale(0.8);
 		const startX: number = this.CX;
-		const startY: number = 800;
+		const startY: number = 900;
 		const distance: number = 200;
 
 		this.fitToScreen(this.background);
@@ -38,9 +39,6 @@ export class GameScene extends BaseScene {
 			btn.add(this.pointImage);
 			btn.on("pointerdown", () => console.log("test"));
 		}
-
-
-		this.ui = new UI(this);
 
 		this.initTouchControls();
 	}

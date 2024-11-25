@@ -10,6 +10,7 @@ const images: Image[] = [
 
 	// Characters
 	image('characters/player', 'player'),
+	image('characters/dragon_walk_01', 'dragon'),
 
 	// Items
 	image('items/coin', 'coin'),
