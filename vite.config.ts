@@ -27,6 +27,7 @@ export default () => {
 			getGitVersion(),
 			checker({
 				typescript: true,
+				overlay: true
 			}),
 			preImageOptimizer(),
 			neuInject(),

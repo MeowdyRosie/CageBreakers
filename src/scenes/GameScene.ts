@@ -16,12 +16,16 @@ export class GameScene extends BaseScene {
 
 		this.background = this.add.image(0, 0, "background");
 		this.background.setOrigin(0);
-		this.fitToScreen(this.background);
 
-		this.player = new Player(this, this.CX, this.CY);
-		this.player.on("action", () => {
-			this.player.doABarrelRoll();
-		});
+		const startX: number = this.CX;
+		const startY: number = 800;
+		const distance: number = 200;
+
+		this.fitToScreen(this.background);
+		for (let i = 0; i < 6; i++) {
+			const p = (Math.PI * 2) * (i / 6);
+			this.add.circle(startX + Math.cos(p) * distance, startY + Math.sin(p) * distance, 50, 0xFF0000);
+		}
 
 		this.ui = new UI(this);
 
@@ -29,7 +33,6 @@ export class GameScene extends BaseScene {
 	}
 
 	update(time: number, delta: number) {
-		this.player.update(time, delta);
 	}
 
 
@@ -43,27 +46,12 @@ export class GameScene extends BaseScene {
 		let touchButton: number = -1;
 
 		this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-			if (!this.player.isTouched) {
-				this.player.touchStart(pointer.x, pointer.y);
-				touchId = pointer.id;
-				touchButton = pointer.button;
-			}
-			else if (this.player.isTouched && !this.player.isTapped) { // Use second touch point as a trigger
-				this.player.doABarrelRoll();
-			}
 		});
 
 		this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
-			if (touchId == pointer.id) {
-				this.player.touchDrag(pointer.x, pointer.y);
-			}
 		});
 
 		this.input.on('pointerup', (pointer: Phaser.Input.Pointer) => {
-			if (touchId == pointer.id && touchButton == pointer.button) {
-				// this.ui.debug.setText(`${new Date().getTime()} - id:${pointer.id} button:${pointer.button}`);
-				this.player.touchEnd(pointer.x, pointer.y);
-			}
 		});
 	}
 }

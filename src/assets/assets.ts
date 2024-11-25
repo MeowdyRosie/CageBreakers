@@ -1,6 +1,7 @@
 import { Image, SpriteSheet, Audio } from './util';
 import { image, sound, music, loadFont, spritesheet } from './util';
 
+
 /* Images */
 const images: Image[] = [
 	// Backgrounds
