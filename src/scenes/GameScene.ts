@@ -29,7 +29,7 @@ export class GameScene extends BaseScene {
 
     this.dragon = this.add.image(dragonX, dragonY, "dragon")
     this.dragon.setOrigin(0.0,0.0)
-    this.dragon.scale = 0.5
+    this.dragon.scale = 0.8
     
 
 
