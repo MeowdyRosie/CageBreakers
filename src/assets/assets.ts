@@ -6,6 +6,7 @@ import { image, sound, music, loadFont, spritesheet } from './util';
 const images: Image[] = [
 	// Backgrounds
 	image('backgrounds/background', 'background'),
+	image('circle', 'circle'),
 
 	// Characters
 	image('characters/player', 'player'),

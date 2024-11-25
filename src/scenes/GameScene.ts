@@ -32,10 +32,13 @@ export class GameScene extends BaseScene {
 			const y = startY + Math.sin(p) * distance;
 			console.log();
 			const btn = new Button(this, x, y);
-			this.pointImage = new Phaser.GameObjects.Sprite(this, 0, 0, "");
+			this.pointImage = new Phaser.GameObjects.Sprite(this, 0, 0, "circle");
+			btn.setSize(100, 100);
+			btn.setInteractive();
 			btn.add(this.pointImage);
-			
+			btn.on("pointerdown", () => console.log("test"));
 		}
+
 
 		this.ui = new UI(this);
 
