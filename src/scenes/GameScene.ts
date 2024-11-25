@@ -137,10 +137,11 @@ export class GameScene extends BaseScene {
       if (lineEnd) {
         this.line.setTo(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y);
       }
-    } else {
-      console.log("Already in list");
     }
+
     this.drawPath();
+    this.path.lineTo(pointer.x, pointer.y);
+    this.path.draw(this.pathGraphics);
   }
 
   drawPath() {
@@ -155,11 +156,12 @@ export class GameScene extends BaseScene {
       this.currentPath.forEach((path) => {
         this.path.lineTo(path.x, path.y);
       });
-      this.path.draw(this.pathGraphics);
     }
   }
 
   stopDrag() {
+    this.drawPath();
+    this.path.draw(this.pathGraphics);
     this.isDragging = false;
     this.path.destroy();
   }
