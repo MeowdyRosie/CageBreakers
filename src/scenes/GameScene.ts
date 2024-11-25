@@ -2,6 +2,7 @@ import { BaseScene } from "@/scenes/BaseScene";
 import { Player } from "@/components/Player";
 import { UI } from "@/components/UI";
 import { Button } from "@/components/elements/Button";
+import GameObject = Phaser.GameObjects.GameObject;
 
 export class GameScene extends BaseScene {
 	private background: Phaser.GameObjects.Image;
@@ -43,18 +44,30 @@ export class GameScene extends BaseScene {
 		const distance: number = 200;
 
 		this.fitToScreen(this.background);
-		for (let i = 0; i < this.nbPoints; i++) {
+		/*for (let i = 0; i < this.nbPoints; i++) {
 			const p = (Math.PI * 2) * (i / this.nbPoints);
 			const x = startX + Math.cos(p) * distance;
 			const y = startY + Math.sin(p) * distance;
+
+
 			console.log();
-			const btn = new Button(this, x, y);
+			/*const btn = new Button(this, x, y);
 			this.pointImage = new Phaser.GameObjects.Sprite(this, 0, 0, "circle");
 			btn.setSize(100, 100);
 			btn.setInteractive();
 			btn.add(this.pointImage);
 			btn.on("pointerdown", () => console.log("test"));
+		}*/
+
+		for (let i = 0; i < 6; i++) {
+			const p = (Math.PI * 2) * (i / 6);
+			const circle = this.add.circle(startX + Math.cos(p) * distance, startY + Math.sin(p) * distance, 50, 0xFF0000);
+			circle.setInteractive();
 		}
+
+		this.input.on("pointerdown", () => {
+			console.log("pointer");
+		});
 
 		this.initTouchControls();
 	}
@@ -71,14 +84,17 @@ export class GameScene extends BaseScene {
 
 		let touchId: number = -1;
 		let touchButton: number = -1;
-
-		this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-		});
+		/*this.input.on('pointerdown', (pointer: Phaser.Input.Pointer, gameobject: Phaser.GameObjects) => {
+			console.log(gameobject);
+		});*/
 
 		this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
 		});
-
-		this.input.on('pointerup', (pointer: Phaser.Input.Pointer) => {
-		});
+		this.input.on("pointerdown", this.onPointerDown, this);
 	}
+
+	onPointerDown(pointer: Phaser.Input.Pointer, currentlyOver: Phaser.GameObjects.GameObject[]): void {
+		console.log(pointer, currentlyOver);
+	}
+
 }
