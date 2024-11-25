@@ -16,6 +16,7 @@ const images: Image[] = [
 	image('characters/dragon', 'dragon'),
   image('characters/kobold', 'kobold'),
 
+
 	// Items
 	image('items/coin', 'coin'),
 
