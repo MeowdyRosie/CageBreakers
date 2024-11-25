@@ -13,7 +13,7 @@ export class GameScene extends BaseScene {
 	private ui: UI;
 	private line: any;
 	private pathGraphics: any;
-	private currentPath: Array<Phaser.GameObjects.GameObject>;
+	private currentPath: Array<Button>;
 	private lineStartPosition = {x: 0, y: 0};
 	private nbPoints = 6;
 	private pointImage: Phaser.GameObjects.Sprite;
@@ -109,45 +109,38 @@ export class GameScene extends BaseScene {
 		this.input.on('pointermove', this.moveDrag, this);
 	}
 
-	startDrag(pointer: Phaser.Input.Pointer, gameObjects: GameObject[]): void {
+	startDrag(pointer: Phaser.Input.Pointer, Buttons: Button[]): void {
 		this.isDragging = true;
 
-		//console.log(gameObjects);
+		console.log(Buttons[0].x);
+
 
 		// initialize Path
-		this.currentPath = [gameObjects[0]];
-		console.log(this.currentPath[0].x);
-		console.log(this.currentPath);
+		this.currentPath = [Buttons[0]];
 
-		/*console.log(this.currentPath);
 		// draw/save last segment of the path
+		this.lineStartPosition.x = Buttons[0].x;
+		this.lineStartPosition.y = Buttons[0].y;
 
-
-		this.lineStartPosition.x = gameObjects[0].x;
-		this.lineStartPosition.y = gameObjects[0].y;
-*/
-
-		//console.log(this.lineStartPosition);
-		// @ts-ignore
-		this.line.x = gameObjects[0].x;
-		// @ts-ignore
-		this.line.y = gameObjects[0].y;
+		this.line.x = Buttons[0].x;
+		this.line.y = Buttons[0].y;
 		this.line.setTo(0, 0, 0, 0);
 		this.line.visible = true;
 	}
 
-	moveDrag(pointer: Phaser.Input.Pointer, gameObjects: Phaser.GameObjects.GameObject[]): void {
+	moveDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
+		console.log(this.isDragging);
 		if (this.isDragging) {
 			// Check If Circle is allowed to be added, to path
 			// Here you would also check if the line is horizontal or vertical  (this part is currently not implemented)
-			if (gameObjects[0] && this.currentPath.indexOf(gameObjects[0]) === -1) {
-				this.currentPath.push(gameObjects[0]);
+			if (buttons[0] && this.currentPath.indexOf(buttons[0]) === -1) {
+				this.currentPath.push(buttons[0]);
 
-				/*this.line.x = gameObjects[0].x;
-				this.line.y = gameObjects[0].y;
+				this.line.x = buttons[0].x;
+				this.line.y = buttons[0].y;
 
-				this.lineStartPosition.x = gameObjects[0].x;
-				this.lineStartPosition.y = gameObjects[0].y;*/
+				this.lineStartPosition.x = buttons[0].x;
+				this.lineStartPosition.y = buttons[0].y;
 
 			}
 			this.line.setTo(0, 0, pointer.x - this.lineStartPosition.x, pointer.y - this.lineStartPosition.y);
@@ -159,11 +152,9 @@ export class GameScene extends BaseScene {
 		this.pathGraphics.clear();
 		if (this.currentPath.length > 0) {
 			this.pathGraphics.lineStyle(10, 0xffffff);
-			// @ts-ignore
 			let path = new Phaser.Curves.Path(this.currentPath[0].x, this.currentPath[0].y);
 			for (let idx = 1; idx < this.currentPath.length; idx++) {
 				let point = this.currentPath[idx];
-				// @ts-ignore
 				path.lineTo(point.x, point.y);
 			}
 			path.draw(this.pathGraphics);
