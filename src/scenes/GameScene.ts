@@ -7,7 +7,8 @@ import GameObject = Phaser.GameObjects.GameObject;
 export class GameScene extends BaseScene {
 	private background: Phaser.GameObjects.Image;
   private dragon: Phaser.GameObjects.Image;
-  private kobolds: Phaser.GameObjects.Image;
+  private frontKobolds: Phaser.GameObjects.Image;
+  private backKobolds: Phaser.GameObjects.Image;
 	private player: Player;
 	private ui: UI;
 
@@ -21,19 +22,25 @@ export class GameScene extends BaseScene {
 	create(): void {
     const dragonX: number = 0;
     const dragonY: number = 100;
-    const numberOfKobolds: number = 3;
+    const numberOfKobolds: number = 5;
 
 		this.fade(false, 200, 0x000000);
 
 		this.background = this.add.image(0, 0, "background")
-    
-    for ( let i=0; i < numberOfKobolds; i++) {
+    const frontRow = Math.ceil(numberOfKobolds/2)
+    const backRow = Math.floor(numberOfKobolds/2)
 
-        this.kobolds = this.add.image(i*this.W/numberOfKobolds,400,"kobold")
-        this.kobolds.setOrigin(0,0)
-        this.kobolds.scale = 0.3
+    for ( let i=0; i < frontRow; i++) {
+      let offset = (this.W/frontRow)/2
+      this.frontKobolds = this.add.image(i*this.W/frontRow + offset,500,"kobold")
+      this.frontKobolds.setOrigin(0.5,0)
+      this.frontKobolds.scale = 0.3
     }
-      
+    for (let i=0; i < backRow; i++) {
+      this.backKobolds = this.add.image((i+1)*this.W/frontRow,450,"kobold")
+      this.backKobolds.setOrigin(0.5,0)
+      this.backKobolds.scale = 0.25
+    }
     
 		this.dragon = this.add.image(this.CX, 300, "dragon");
 		this.dragon.setScale(0.8);
