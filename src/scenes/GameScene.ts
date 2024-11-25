@@ -41,8 +41,10 @@ export class GameScene extends BaseScene {
     }
       
     
+		this.dragon = this.add.image(this.CX, 300, "dragon");
+		this.dragon.setScale(0.8);
 		const startX: number = this.CX;
-		const startY: number = 800;
+		const startY: number = 900;
 		const distance: number = 200;
 
 		this.fitToScreen(this.background);
@@ -58,9 +60,6 @@ export class GameScene extends BaseScene {
 			btn.add(this.pointImage);
 			btn.on("pointerdown", () => console.log("test"));
 		}
-
-
-		this.ui = new UI(this);
 
 		this.initTouchControls();
 	}
