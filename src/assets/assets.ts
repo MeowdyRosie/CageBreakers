@@ -13,7 +13,6 @@ const images: Image[] = [
   image('characters/kobold', 'kobold'),
 	image('characters/player', 'player'),
 	image('characters/dragon_walk_01', 'dragon'),
-	image('characters/dragon', 'dragon'),
   image('characters/kobold', 'kobold'),
 
 
