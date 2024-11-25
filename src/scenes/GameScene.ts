@@ -5,103 +5,162 @@ import { Button } from "@/components/elements/Button";
 import GameObject = Phaser.GameObjects.GameObject;
 
 export class GameScene extends BaseScene {
-	private background: Phaser.GameObjects.Image;
+  private background: Phaser.GameObjects.Image;
   private dragon: Phaser.GameObjects.Image;
   private frontKobolds: Phaser.GameObjects.Image;
   private backKobolds: Phaser.GameObjects.Image;
-	private player: Player;
-	private ui: UI;
+  private player: Player;
+  private ui: UI;
+  private line: Phaser.GameObjects.Line;
+  private pathGraphics: Phaser.GameObjects.Graphics;
+  private currentPath: Array<Button>;
+  private nbPoints = 6;
+  private pointImage: Phaser.GameObjects.Sprite;
+  private isDragging = false;
 
-	private nbPoints = 6;
-	private pointImage: Phaser.GameObjects.Sprite;
+  private path: Phaser.Curves.Path;
 
-	constructor() {
-		super({ key: "GameScene" });
-	}
+  constructor() {
+    super({ key: "GameScene" });
+  }
 
-	create(): void {
+  create(): void {
     const dragonX: number = 0;
     const dragonY: number = 100;
     const numberOfKobolds: number = 5;
 
-		this.fade(false, 200, 0x000000);
+    this.line = this.add.line(0, 0, 0, 0, 100, 100, 0xffffff).setOrigin(0);
+    this.line.setLineWidth(5);
+    this.line.visible = false;
 
-		this.background = this.add.image(0, 0, "background")
-    const frontRow = Math.ceil(numberOfKobolds/2)
-    const backRow = Math.floor(numberOfKobolds/2)
+    this.fade(false, 200, 0x000000);
 
-    for ( let i=0; i < frontRow; i++) {
-      let offset = (this.W/frontRow)/2
-      this.frontKobolds = this.add.image(i*this.W/frontRow + offset,500,"kobold")
-      this.frontKobolds.setOrigin(0.5,0)
-      this.frontKobolds.scale = 0.3
+    this.background = this.add.image(0, 0, "background");
+    const frontRow = Math.ceil(numberOfKobolds / 2);
+    const backRow = Math.floor(numberOfKobolds / 2);
+
+    for (let i = 0; i < frontRow; i++) {
+      let offset = this.W / frontRow / 2;
+      this.frontKobolds = this.add.image(
+        (i * this.W) / frontRow + offset,
+        500,
+        "kobold"
+      );
+      this.frontKobolds.setOrigin(0.5, 0);
+      this.frontKobolds.scale = 0.3;
     }
-    for (let i=0; i < backRow; i++) {
-      this.backKobolds = this.add.image((i+1)*this.W/frontRow,450,"kobold")
-      this.backKobolds.setOrigin(0.5,0)
-      this.backKobolds.scale = 0.25
+    for (let i = 0; i < backRow; i++) {
+      this.backKobolds = this.add.image(
+        ((i + 1) * this.W) / frontRow,
+        450,
+        "kobold"
+      );
+      this.backKobolds.setOrigin(0.5, 0);
+      this.backKobolds.scale = 0.25;
     }
-    
-		this.dragon = this.add.image(this.CX, 300, "dragon");
-		this.dragon.setScale(0.8);
-		this.background.setOrigin(0,0);
-    
-		const startX: number = this.CX;
-		const startY: number = 900;
-		const distance: number = 200;
+    this.dragon = this.add.image(this.CX, 300, "dragon");
+    this.dragon.setScale(0.8);
+    this.background.setOrigin(0, 0);
 
-		this.fitToScreen(this.background);
-		/*for (let i = 0; i < this.nbPoints; i++) {
-			const p = (Math.PI * 2) * (i / this.nbPoints);
-			const x = startX + Math.cos(p) * distance;
-			const y = startY + Math.sin(p) * distance;
+    const startX: number = this.CX;
+    const startY: number = 900;
+    const distance: number = 200;
 
+    this.fitToScreen(this.background);
+    for (let i = 0; i < this.nbPoints; i++) {
+      const p = Math.PI * 2 * (i / this.nbPoints);
+      const x = startX + Math.cos(p) * distance;
+      const y = startY + Math.sin(p) * distance;
 
-			console.log();
-			/*const btn = new Button(this, x, y);
-			this.pointImage = new Phaser.GameObjects.Sprite(this, 0, 0, "circle");
-			btn.setSize(100, 100);
-			btn.setInteractive();
-			btn.add(this.pointImage);
-			btn.on("pointerdown", () => console.log("test"));
-		}*/
+      console.log();
+      const btn = new Button(this, x, y);
+      this.pointImage = new Phaser.GameObjects.Sprite(this, 0, 0, "circle");
+      btn.setSize(100, 100);
+      btn.setInteractive();
+      btn.add(this.pointImage);
+    }
 
-		for (let i = 0; i < 6; i++) {
+    /*for (let i = 0; i < 6; i++) {
 			const p = (Math.PI * 2) * (i / 6);
 			const circle = this.add.circle(startX + Math.cos(p) * distance, startY + Math.sin(p) * distance, 50, 0xFF0000);
 			circle.setInteractive();
-		}
+		}*/
 
-		this.input.on("pointerdown", () => {
-			console.log("pointer");
-		});
+    this.input.on("pointerdown", () => {
+      console.log("pointer");
+    });
+    this.pathGraphics = this.add.graphics();
 
-		this.initTouchControls();
-	}
+    this.initTouchControls();
+  }
 
-	update(time: number, delta: number) {
-	}
+  update(time: number, delta: number) {}
 
+  initTouchControls() {
+    this.input.addPointer(2);
 
-	initTouchControls() {
-		this.input.addPointer(2);
+    // let touchArea = this.add.rectangle(0, 0, this.W, this.H, 0xFFFFFF).setOrigin(0).setAlpha(0.001);
+    // touchArea.setInteractive({ useHandCursor: true, draggable: true });
 
-		// let touchArea = this.add.rectangle(0, 0, this.W, this.H, 0xFFFFFF).setOrigin(0).setAlpha(0.001);
-		// touchArea.setInteractive({ useHandCursor: true, draggable: true });
-
-		let touchId: number = -1;
-		let touchButton: number = -1;
-		/*this.input.on('pointerdown', (pointer: Phaser.Input.Pointer, gameobject: Phaser.GameObjects) => {
+    let touchId: number = -1;
+    let touchButton: number = -1;
+    /*this.input.on('pointerdown', (pointer: Phaser.Input.Pointer, gameobject: Phaser.GameObjects) => {
 			console.log(gameobject);
 		});*/
 
-		this.input.on('pointermove', (pointer: Phaser.Input.Pointer) => {
-		});
-		this.input.on("pointerdown", this.onPointerDown, this);
-	}
+    this.input.on("pointerdown", this.startDrag, this);
+    this.input.on("pointermove", this.moveDrag, this);
+    this.input.on("pointerup", this.stopDrag, this);
+  }
 
-	onPointerDown(pointer: Phaser.Input.Pointer, currentlyOver: Phaser.GameObjects.GameObject[]): void {
-		console.log(pointer, currentlyOver);
-	}
+  startDrag(pointer: Phaser.Input.Pointer, Buttons: Button[]): void {
+    this.isDragging = true;
 
+    if (Buttons.length <= 0) return;
+
+    // initialize Path
+    this.currentPath = [Buttons[0]];
+
+    this.line.x = Buttons[0].x;
+    this.line.y = Buttons[0].y;
+    //this.line.setTo(0, 0, 0, 0);
+    this.line.visible = true;
+  }
+
+  moveDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
+    if (!this.isDragging) return;
+    if (buttons[0] && this.currentPath.indexOf(buttons[0]) === -1) {
+      this.currentPath.push(buttons[0]);
+      const lineStart = this.currentPath[this.currentPath.length - 2];
+      const lineEnd = this.currentPath[this.currentPath.length - 1];
+
+      if (lineEnd) {
+        this.line.setTo(lineStart.x, lineStart.y, lineEnd.x, lineEnd.y);
+      }
+    } else {
+      console.log("Already in list");
+    }
+    this.drawPath();
+  }
+
+  drawPath() {
+    if (this.currentPath.length > 0) {
+      this.pathGraphics.clear();
+      this.pathGraphics.lineStyle(10, 0xffffff);
+
+      this.path = this.add.path(0, 0);
+
+      this.path.startPoint.set(this.currentPath[0].x, this.currentPath[0].y);
+
+      this.currentPath.forEach((path) => {
+        this.path.lineTo(path.x, path.y);
+      });
+      this.path.draw(this.pathGraphics);
+    }
+  }
+
+  stopDrag() {
+    this.isDragging = false;
+    this.path.destroy();
+  }
 }
