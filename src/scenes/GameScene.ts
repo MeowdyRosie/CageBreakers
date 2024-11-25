@@ -22,6 +22,7 @@ export class GameScene extends BaseScene {
 
   constructor() {
     super({ key: "GameScene" });
+    this.currentPath = [];
   }
 
   create(): void {
@@ -80,15 +81,6 @@ export class GameScene extends BaseScene {
       btn.add(this.pointImage);
     }
 
-    /*for (let i = 0; i < 6; i++) {
-			const p = (Math.PI * 2) * (i / 6);
-			const circle = this.add.circle(startX + Math.cos(p) * distance, startY + Math.sin(p) * distance, 50, 0xFF0000);
-			circle.setInteractive();
-		}*/
-
-    this.input.on("pointerdown", () => {
-      console.log("pointer");
-    });
     this.pathGraphics = this.add.graphics();
 
     this.initTouchControls();
@@ -139,20 +131,22 @@ export class GameScene extends BaseScene {
       }
     }
 
+    this.path = this.add.path(0, 0);
     this.drawPath();
-    this.path.lineTo(pointer.x, pointer.y);
-    this.path.draw(this.pathGraphics);
+    if (this.currentPath[0]) {
+      this.path.lineTo(pointer.x, pointer.y);
+      this.path.draw(this.pathGraphics);
+    }
   }
 
   drawPath() {
-    if (this.currentPath.length > 0) {
+    if (this.currentPath[0]) {
+      this.path = this.add.path(0, 0);
+      this.path.startPoint.set(this.currentPath[0].x, this.currentPath[0].y);
       this.pathGraphics.clear();
       this.pathGraphics.lineStyle(10, 0xffffff);
-
-      this.path = this.add.path(0, 0);
-
-      this.path.startPoint.set(this.currentPath[0].x, this.currentPath[0].y);
-
+    }
+    if (this.currentPath.length >= 2) {
       this.currentPath.forEach((path) => {
         this.path.lineTo(path.x, path.y);
       });
@@ -162,6 +156,7 @@ export class GameScene extends BaseScene {
   stopDrag() {
     this.drawPath();
     this.path.draw(this.pathGraphics);
+    this.currentPath = [];
     this.isDragging = false;
     this.path.destroy();
   }
