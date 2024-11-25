@@ -4,6 +4,8 @@ import { UI } from "@/components/UI";
 
 export class GameScene extends BaseScene {
 	private background: Phaser.GameObjects.Image;
+  private dragon: Phaser.GameObjects.Image;
+  private kobolds: Phaser.GameObjects.Image;
 	private player: Player;
 	private ui: UI;
 
@@ -12,11 +14,29 @@ export class GameScene extends BaseScene {
 	}
 
 	create(): void {
+    const dragonX: number = 0;
+    const dragonY: number = 100;
+    const numberOfKobolds: number = 3;
+
 		this.fade(false, 200, 0x000000);
 
 		this.background = this.add.image(0, 0, "background");
 		this.background.setOrigin(0);
 
+    this.dragon = this.add.image(dragonX, dragonY, "dragon")
+    this.dragon.setOrigin(0.0,0.0)
+    this.dragon.scale = 0.5
+    
+
+
+    for ( let i=0; i < numberOfKobolds; i++) {
+
+        this.kobolds = this.add.image(i*this.W/numberOfKobolds,400,"kobold")
+        this.kobolds.setOrigin(0,0)
+        this.kobolds.scale = 0.3
+    }
+      
+    
 		const startX: number = this.CX;
 		const startY: number = 800;
 		const distance: number = 200;
