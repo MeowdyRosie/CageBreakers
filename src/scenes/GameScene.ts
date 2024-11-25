@@ -68,17 +68,21 @@ export class GameScene extends BaseScene {
     const distance: number = 200;
 
     this.fitToScreen(this.background);
-    for (let i = 0; i < this.nbPoints; i++) {
-      const p = Math.PI * 2 * (i / this.nbPoints);
-      const x = startX + Math.cos(p) * distance;
-      const y = startY + Math.sin(p) * distance;
 
-      console.log();
+    const addButton = (x: number, y: number) => {
       const btn = new Button(this, x, y);
       this.pointImage = new Phaser.GameObjects.Sprite(this, 0, 0, "circle");
       btn.setSize(100, 100);
       btn.setInteractive();
       btn.add(this.pointImage);
+    };
+
+    addButton(startX, startY);
+    for (let i = 0; i < this.nbPoints; i++) {
+      const p = Math.PI * 2 * (i / this.nbPoints) + Math.PI / this.nbPoints;
+      const x = startX + Math.cos(p) * distance;
+      const y = startY + Math.sin(p) * distance;
+      addButton(x, y);
     }
 
     this.pathGraphics = this.add.graphics();
@@ -96,9 +100,6 @@ export class GameScene extends BaseScene {
 
     let touchId: number = -1;
     let touchButton: number = -1;
-    /*this.input.on('pointerdown', (pointer: Phaser.Input.Pointer, gameobject: Phaser.GameObjects) => {
-			console.log(gameobject);
-		});*/
 
     this.input.on("pointerdown", this.startDrag, this);
     this.input.on("pointermove", this.moveDrag, this);
