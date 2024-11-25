@@ -43,6 +43,17 @@ export class GameScene extends BaseScene {
     
 		this.dragon = this.add.image(this.CX, 300, "dragon");
 		this.dragon.setScale(0.8);
+		this.background.setOrigin(0);
+    
+
+    for ( let i=0; i < numberOfKobolds; i++) {
+
+        this.kobolds = this.add.image(i*this.W/numberOfKobolds,400,"kobold")
+        this.kobolds.setOrigin(0,0)
+        this.kobolds.scale = 0.3
+    }
+      
+    
 		const startX: number = this.CX;
 		const startY: number = 900;
 		const distance: number = 200;
