@@ -36,7 +36,7 @@ export class GameScene extends BaseScene {
     
 		this.dragon = this.add.image(this.CX, 300, "dragon");
 		this.dragon.setScale(0.8);
-		this.background.setOrigin(0);
+		this.background.setOrigin(0,0);
     
 		const startX: number = this.CX;
 		const startY: number = 900;
