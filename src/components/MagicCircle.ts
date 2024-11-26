@@ -79,6 +79,15 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       this.currentPath.push(buttons[0]);
     }
 
+    if (
+      this.currentPath.indexOf(buttons[0]) == 0 &&
+      this.currentPath.length > 2
+    ) {
+      this.currentPath.push(buttons[0]);
+      this.#stopDrag();
+      return;
+    }
+
     this.#drawPath();
     if (this.currentPath[0]) {
       this.path.lineTo(pointer.x, pointer.y);
@@ -106,10 +115,13 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.path.draw(this.pathGraphics);
     this.isDragging = false;
     this.path.destroy();
-    this.emit(
-      "spell",
-      this.currentPath.map((button) => button.name)
-    );
+
+    const closed =
+      this.currentPath[0] == this.currentPath[this.currentPath.length - 1];
+    const pattern = this.currentPath.map((button) => button.name);
+    if (closed) pattern.pop();
+
+    this.emit("spell", { pattern, closed });
     this.currentPath = [];
   }
 }
