@@ -69,11 +69,8 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
   }
 
   #startDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
-    this.isDragging = true;
-
     if (buttons.length <= 0) return;
-
-    // initialize Path
+    this.isDragging = true;
     this.path = this.scene.add.path(0, 0);
   }
 
