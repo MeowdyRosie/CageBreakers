@@ -56,7 +56,6 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     });
 
     this.buttons.forEach((button, index) => {
-      console.log(alphabeth(index));
       button.setName(alphabeth(index));
     });
 
