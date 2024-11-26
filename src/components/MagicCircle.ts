@@ -11,17 +11,21 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
   private path: Phaser.Curves.Path;
 
   private isDragging = false;
+  private interactive = false;
 
   constructor(
     scene: BaseScene,
     x: number,
     y: number,
     radius: number,
+    scale: number,
     interactive = false
   ) {
     super(scene, x, y);
     this.scene = scene;
     scene.add.existing(this);
+
+    this.interactive = interactive;
 
     const points = 6;
 
@@ -33,7 +37,8 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       btn.setSize(100, 100);
       if (interactive) btn.setInteractive();
       btn.setName(index.toString());
-      btn.add(scene.add.sprite(0, 0, "circle"));
+      if (interactive)
+        btn.add(scene.add.sprite(0, 0, "circle").setScale(scale));
       this.buttons.push(btn);
     };
 
@@ -111,7 +116,11 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       this.path = this.scene.add.path(0, 0);
       this.path.startPoint.set(this.currentPath[0].x, this.currentPath[0].y);
       this.pathGraphics.clear();
-      this.pathGraphics.lineStyle(10, 0xffffff);
+      if (this.interactive) {
+        this.pathGraphics.lineStyle(10, 0xffffff);
+      } else {
+        this.pathGraphics.lineStyle(10, 0xff0000);
+      }
     }
     if (this.currentPath.length >= 2) {
       this.currentPath.forEach((path) => {
@@ -171,7 +180,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     return true;
   }
 
-  setDrawPattern(pattern: number[]) {
+  setSpellPattern(pattern: number[]) {
     pattern.forEach((vert) => {
       this.currentPath.push(this.buttons[vert]);
     });
