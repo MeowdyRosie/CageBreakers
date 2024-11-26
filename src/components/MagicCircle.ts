@@ -41,13 +41,13 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
     this.pathGraphics = scene.add.graphics();
 
-    this.scene.input.on("pointerdown", this.startDrag, this);
-    this.scene.input.on("pointermove", this.moveDrag, this);
-    this.scene.input.on("pointerup", this.stopDrag, this);
-    this.scene.input.on("gameout", this.stopDrag, this);
+    this.scene.input.on("pointerdown", this.#startDrag, this);
+    this.scene.input.on("pointermove", this.#moveDrag, this);
+    this.scene.input.on("pointerup", this.#stopDrag, this);
+    this.scene.input.on("gameout", this.#stopDrag, this);
   }
 
-  startDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
+  #startDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
     this.isDragging = true;
 
     if (buttons.length <= 0) return;
@@ -56,20 +56,20 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.path = this.scene.add.path(0, 0);
   }
 
-  moveDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
+  #moveDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
     if (!this.isDragging) return;
     if (buttons[0] && this.currentPath.indexOf(buttons[0]) === -1) {
       this.currentPath.push(buttons[0]);
     }
 
-    this.drawPath();
+    this.#drawPath();
     if (this.currentPath[0]) {
       this.path.lineTo(pointer.x, pointer.y);
       this.path.draw(this.pathGraphics);
     }
   }
 
-  drawPath() {
+  #drawPath() {
     if (this.currentPath[0]) {
       this.path = this.scene.add.path(0, 0);
       this.path.startPoint.set(this.currentPath[0].x, this.currentPath[0].y);
@@ -83,9 +83,9 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     }
   }
 
-  stopDrag() {
+  #stopDrag() {
     if (!this.path) return;
-    this.drawPath();
+    this.#drawPath();
     this.path.draw(this.pathGraphics);
     this.currentPath = [];
     this.isDragging = false;
