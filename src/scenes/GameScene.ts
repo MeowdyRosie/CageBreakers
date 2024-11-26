@@ -43,6 +43,10 @@ export class GameScene extends BaseScene {
 
     this.fitToScreen(this.background);
     this.initTouchControls();
+
+    this.circle.on("spell", (path: number[]) => {
+      console.log(path);
+    });
   }
 
   initTouchControls() {
