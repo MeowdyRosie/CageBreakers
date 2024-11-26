@@ -20,7 +20,7 @@ export class GameScene extends BaseScene {
     this.fade(false, 200, 0x000000);
 
     this.background = this.add.image(0, 0, "background");
-    this.circle = new MagicCircle(this, this.CX, 950, 200);
+    this.circle = new MagicCircle(this, this.CX, 950, 200, true);
 
     this.dragon = this.add.image(this.CX, 300, "dragon");
     this.dragon.setScale(0.8);

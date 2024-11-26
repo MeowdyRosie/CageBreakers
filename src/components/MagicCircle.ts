@@ -12,7 +12,13 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
   private isDragging = false;
 
-  constructor(scene: BaseScene, x: number, y: number, radius: number) {
+  constructor(
+    scene: BaseScene,
+    x: number,
+    y: number,
+    radius: number,
+    interactive = false
+  ) {
     super(scene, x, y);
     this.scene = scene;
     scene.add.existing(this);
@@ -25,7 +31,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     const addButton = (x: number, y: number, index: number) => {
       const btn = new Button(scene, x, y);
       btn.setSize(100, 100);
-      btn.setInteractive();
+      if (interactive) btn.setInteractive();
       btn.setName(index.toString());
       btn.add(scene.add.sprite(0, 0, "circle"));
       this.buttons.push(btn);
@@ -53,10 +59,13 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
     this.pathGraphics = scene.add.graphics();
 
-    this.scene.input.on("pointerdown", this.#startDrag, this);
-    this.scene.input.on("pointermove", this.#moveDrag, this);
-    this.scene.input.on("pointerup", this.#stopDrag, this);
-    this.scene.input.on("gameout", this.#stopDrag, this);
+    if (interactive) {
+      console.log("interac");
+      this.scene.input.on("pointerdown", this.#startDrag, this);
+      this.scene.input.on("pointermove", this.#moveDrag, this);
+      this.scene.input.on("pointerup", this.#stopDrag, this);
+      this.scene.input.on("gameout", this.#stopDrag, this);
+    }
   }
 
   #startDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
