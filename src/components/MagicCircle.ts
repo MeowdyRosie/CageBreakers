@@ -133,6 +133,20 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
   }
 
   findEdges(pattern: number[]) {
+    const opposites = [6, 5, 4];
+    const isOpposite = (a: number, b: number) => {
+      const min = Math.min(a, b);
+      const max = Math.max(a, b);
+      return opposites[min] == max;
+    };
+
+    // Insert cener verteces if points are opposite on the circle
+    for (let i = 1; i < pattern.length; i++) {
+      if (isOpposite(pattern[i - 1], pattern[i])) {
+        pattern.splice(i, 0, 3);
+      }
+    }
+
     const edgeSet = new Set<string>();
     for (let i = 1; i < pattern.length; i++) {
       const min = Math.min(pattern[i], pattern[i - 1]);
