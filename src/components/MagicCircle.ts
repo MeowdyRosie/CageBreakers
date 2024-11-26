@@ -1,10 +1,6 @@
 import { BaseScene } from "@/scenes/BaseScene";
 import { Button } from "./elements/Button";
 
-const alphabeth = (i: number) => {
-  return String.fromCharCode("A".charCodeAt(0) + i);
-};
-
 export default class MagicCircle extends Phaser.GameObjects.Container {
   public declare scene: BaseScene;
   private buttons: Array<Button>;
@@ -16,16 +12,12 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
   private isDragging = false;
 
-  constructor(
-    scene: BaseScene,
-    x: number,
-    y: number,
-    points: number,
-    radius: number
-  ) {
+  constructor(scene: BaseScene, x: number, y: number, radius: number) {
     super(scene, x, y);
     this.scene = scene;
     scene.add.existing(this);
+
+    const points = 6;
 
     this.buttons = [];
     this.currentPath = [];
@@ -56,7 +48,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     });
 
     this.buttons.forEach((button, index) => {
-      button.setName(alphabeth(index));
+      button.setName(`${index}`);
     });
 
     this.pathGraphics = scene.add.graphics();
@@ -75,13 +67,24 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
   #moveDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
     if (!this.isDragging) return;
-    if (buttons[0] && this.currentPath.indexOf(buttons[0]) === -1) {
+    const findIndex = this.currentPath.indexOf(buttons[0]);
+
+    if (buttons[0] && findIndex === -1) {
       this.currentPath.push(buttons[0]);
     }
 
     if (
-      this.currentPath.indexOf(buttons[0]) == 0 &&
-      this.currentPath.length > 2
+      buttons[0] &&
+      Number(buttons[0].name) == 3 &&
+      Number(this.currentPath[this.currentPath.length - 1].name) != 3
+    ) {
+      this.currentPath.push(buttons[0]);
+    }
+
+    if (
+      findIndex == 0 &&
+      this.currentPath.length > 2 &&
+      Number(buttons[0].name) != 3
     ) {
       this.currentPath.push(buttons[0]);
       this.#stopDrag();
@@ -115,13 +118,81 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.path.draw(this.pathGraphics);
     this.isDragging = false;
     this.path.destroy();
-
-    const closed =
-      this.currentPath[0] == this.currentPath[this.currentPath.length - 1];
-    const pattern = this.currentPath.map((button) => button.name);
-    if (closed) pattern.pop();
-
-    this.emit("spell", { pattern, closed });
+    this.#emitPattern();
     this.currentPath = [];
   }
+
+  #emitPattern() {
+    const pattern = this.currentPath.map((button) => Number(button.name));
+
+    const edges = this.findEdges(pattern);
+
+    // this.normalizePattern(pattern);
+
+    this.emit("spell", edges);
+  }
+
+  findEdges(pattern: number[]) {
+    const edgeSet = new Set<string>();
+    for (let i = 1; i < pattern.length; i++) {
+      const min = Math.min(pattern[i], pattern[i - 1]);
+      const max = Math.max(pattern[i], pattern[i - 1]);
+      edgeSet.add(`${min}${max}`);
+    }
+    const edges = [...edgeSet];
+    edges.sort();
+
+    return edges;
+  }
+
+  comparePattern(edgeSet1: string[], edgeSet2: string[]) {
+    if (edgeSet1.length != edgeSet2.length) return false;
+    for (let i = 0; i < edgeSet1.length; i++) {
+      if (edgeSet1[i] != edgeSet2[i]) return false;
+    }
+    return true;
+  }
+
+  /*
+  normalizePattern(pattern: number[]) {
+    let closed = pattern[0] == pattern[pattern.length - 1];
+
+    this.findEdges(pattern);
+
+    if (closed) {
+      pattern.pop();
+    }
+
+    const opposites = [6, 5, 4];
+    const isOpposite = (a: number, b: number) => {
+      const min = Math.min(a, b);
+      const max = Math.max(a, b);
+      return opposites[min] == max;
+    };
+    const insertMiddle = () => {
+      for (let i = 1; i < pattern.length; i++) {
+        if (isOpposite(pattern[i - 1], pattern[i])) {
+          pattern.splice(i, 0, 3);
+        }
+      }
+    };
+
+    if (closed) {
+      insertMiddle();
+      const smallest = pattern.reduce(
+        (prev, cur) => Math.min(prev, cur),
+        Number.MAX_SAFE_INTEGER
+      );
+      const smallestIndex = pattern.findIndex((v) => v == smallest);
+      pattern.push(...pattern.splice(0, smallestIndex));
+      if (pattern[1] > pattern[pattern.length - 1]) {
+        pattern.push(...pattern.splice(1, pattern.length).reverse());
+      }
+      pattern.push(pattern[0]);
+    } else if (pattern[pattern.length - 1] < pattern[0]) {
+      pattern.reverse();
+    }
+    insertMiddle();
+  }
+  */
 }
