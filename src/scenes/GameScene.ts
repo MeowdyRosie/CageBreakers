@@ -23,20 +23,20 @@ export class GameScene extends BaseScene {
     this.circle = new MagicCircle(this, this.CX, 950, 200, 1, true);
 
     this.dragon = this.add.image(this.CX, 300, "dragon");
-    this.dragon.setScale(0.8);
+    this.dragon.setScale(1);
 
     const frontRow = Math.ceil(numberOfKobolds / 2);
     const backRow = Math.floor(numberOfKobolds / 2);
 
     for (let i = 0; i < backRow; i++) {
       const x = ((1 + i) * this.W) / frontRow;
-      this.kobolds.push(new Kobold(this, x, 450, 0.25));
+      this.kobolds.push(new Kobold(this, x, 450, 0.05));
     }
 
     for (let i = 0; i < frontRow; i++) {
       const offset = this.W / frontRow / 2;
       const x = (i * this.W) / frontRow + offset;
-      this.kobolds.push(new Kobold(this, x, 500, 0.3));
+      this.kobolds.push(new Kobold(this, x, 500, 0.1));
     }
 
     this.background.setOrigin(0, 0);
