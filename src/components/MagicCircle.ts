@@ -60,7 +60,6 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.pathGraphics = scene.add.graphics();
 
     if (interactive) {
-      console.log("interac");
       this.scene.input.on("pointerdown", this.#startDrag, this);
       this.scene.input.on("pointermove", this.#moveDrag, this);
       this.scene.input.on("pointerup", this.#stopDrag, this);
@@ -119,12 +118,12 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
         this.path.lineTo(path.x, path.y);
       });
     }
+    this.path.draw(this.pathGraphics);
   }
 
   #stopDrag() {
     if (!this.path || !this.isDragging) return;
     this.#drawPath();
-    this.path.draw(this.pathGraphics);
     this.isDragging = false;
     this.path.destroy();
     this.#emitPattern();
@@ -133,11 +132,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
   #emitPattern() {
     const pattern = this.currentPath.map((button) => Number(button.name));
-
     const edges = this.findEdges(pattern);
-
-    // this.normalizePattern(pattern);
-
     this.emit("spell", edges);
   }
 
@@ -149,7 +144,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       return opposites[min] == max;
     };
 
-    // Insert cener verteces if points are opposite on the circle
+    // Insert center verteces if points are opposite on the circle
     for (let i = 1; i < pattern.length; i++) {
       if (isOpposite(pattern[i - 1], pattern[i])) {
         pattern.splice(i, 0, 3);
@@ -176,46 +171,10 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     return true;
   }
 
-  /*
-  normalizePattern(pattern: number[]) {
-    let closed = pattern[0] == pattern[pattern.length - 1];
-
-    this.findEdges(pattern);
-
-    if (closed) {
-      pattern.pop();
-    }
-
-    const opposites = [6, 5, 4];
-    const isOpposite = (a: number, b: number) => {
-      const min = Math.min(a, b);
-      const max = Math.max(a, b);
-      return opposites[min] == max;
-    };
-    const insertMiddle = () => {
-      for (let i = 1; i < pattern.length; i++) {
-        if (isOpposite(pattern[i - 1], pattern[i])) {
-          pattern.splice(i, 0, 3);
-        }
-      }
-    };
-
-    if (closed) {
-      insertMiddle();
-      const smallest = pattern.reduce(
-        (prev, cur) => Math.min(prev, cur),
-        Number.MAX_SAFE_INTEGER
-      );
-      const smallestIndex = pattern.findIndex((v) => v == smallest);
-      pattern.push(...pattern.splice(0, smallestIndex));
-      if (pattern[1] > pattern[pattern.length - 1]) {
-        pattern.push(...pattern.splice(1, pattern.length).reverse());
-      }
-      pattern.push(pattern[0]);
-    } else if (pattern[pattern.length - 1] < pattern[0]) {
-      pattern.reverse();
-    }
-    insertMiddle();
+  setDrawPattern(pattern: number[]) {
+    pattern.forEach((vert) => {
+      this.currentPath.push(this.buttons[vert]);
+    });
+    this.#drawPath();
   }
-  */
 }
