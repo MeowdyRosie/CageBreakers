@@ -1,13 +1,13 @@
 {
-	"team": "Chocobois",
-	"title": "Game Jam Template",
-	"description": "We make game, but faster!",
-	"itch": {
-		"upload": false,
-		"username": "username",
-		"game": "game-name"
-	},
-	"neutralino": {
-		"allow": ["app.exit", "window.center"]
-	}
+  "team": "The Kobold Union",
+  "title": "The Kobold Union",
+  "description": "We make game, but faster!",
+  "itch": {
+    "upload": true,
+    "username": "arcticfqx",
+    "game": "the-kobold-union"
+  },
+  "neutralino": {
+    "allow": ["app.exit", "window.center"]
+  }
 }
