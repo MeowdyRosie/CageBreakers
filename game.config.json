@@ -3,7 +3,7 @@
   "title": "The Kobold Union",
   "description": "We make game, but faster!",
   "itch": {
-    "upload": true,
+    "upload": false,
     "username": "arcticfqx",
     "game": "the-kobold-union"
   },
