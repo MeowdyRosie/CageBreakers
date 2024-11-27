@@ -25,7 +25,15 @@ const images: Image[] = [
 ];
 
 /* Spritesheets */
-const spritesheets: SpriteSheet[] = [];
+const spritesheets: SpriteSheet[] = [
+  spritesheet("characters/kobold", "kobold", 499, 758),
+  spritesheet("characters/cat", "cat", 499, 758),
+  spritesheet("characters/deer", "deer", 499, 758),
+  spritesheet("characters/kobold_mage", "kobold_mage", 499, 758),
+  spritesheet("characters/mouse", "mouse", 499, 758),
+  spritesheet("characters/wolf", "wolf", 499, 758),
+  spritesheet("characters/bird", "bird", 499, 758),
+];
 
 /* Audios */
 const audios: Audio[] = [
