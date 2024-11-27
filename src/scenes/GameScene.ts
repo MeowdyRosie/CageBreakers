@@ -58,16 +58,14 @@ export class GameScene extends BaseScene {
       this.kobolds.forEach((kobold) => {
         if (kobold.trySpell(edges)) {
           kobold.patternsLeft--;
-          if(kobold.patternsLeft == 0)
-          {
+          if (kobold.patternsLeft == 0) {
             kobold.setFree();
-            return;
+          } else {
+            kobold.setRandomSpellPattern();
           }
-          kobold.setRandomSpellPattern();
         }
       });
     });
-
   }
 
   initTouchControls() {

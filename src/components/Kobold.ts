@@ -49,6 +49,7 @@ export class Kobold extends Phaser.GameObjects.Container {
     this.add(this.kobold);
 
     this.patternsLeft = patternsLeft;
+
     scene.anims.create({
       key: "idle",
       frames: scene.anims.generateFrameNames("kobold", {
@@ -60,14 +61,14 @@ export class Kobold extends Phaser.GameObjects.Container {
 
     scene.anims.create({
       key: "run",
-      frames: scene.anims.generateFrameNames("kobold", {
+      frames: this.scene.anims.generateFrameNames("kobold", {
         frames: [2, 3],
       }),
-      frameRate: 4,
+      frameRate: 2,
       repeat: -1,
     });
 
-    this.kobold.playAfterDelay("idle", Math.random() * 1000);
+    this.kobold.playAfterDelay("idle", Math.random() * 500);
 
     this.circle = new MagicCircle(scene, 0, 0, 50, scale, false);
     this.add(this.circle);
@@ -87,5 +88,6 @@ export class Kobold extends Phaser.GameObjects.Container {
 
   setFree() {
     this.circle.setLineColor(0x00aa00);
+    this.kobold.play("run");
   }
 }
