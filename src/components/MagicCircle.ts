@@ -41,18 +41,20 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     const addButton = (x: number, y: number, index: number) => {
       const btn = new Button(scene, x, y);
       btn.setSize(100, 100);
-      if (interactive) btn.setInteractive();
-      btn.setName(index.toString());
-      if (interactive)
+      if (interactive) {
+        btn.setInteractive();
         btn.add(scene.add.sprite(0, 0, "circle").setScale(scale));
+      }
+      btn.setName(index.toString());
       this.buttons.push(btn);
+      this.add(btn);
     };
 
-    addButton(this.x, this.y, 0);
+    addButton(0, 0, 0);
     for (let i = 0; i < points; i++) {
       const p = Math.PI * 2 * (i / points) + Math.PI / points;
-      const x = Math.cos(p) * radius + this.x;
-      const y = Math.sin(p) * radius + this.y;
+      const x = Math.cos(p) * radius;
+      const y = Math.sin(p) * radius;
       addButton(x, y, i + 1);
     }
 
@@ -69,6 +71,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     });
 
     this.pathGraphics = scene.add.graphics();
+    this.add(this.pathGraphics);
 
     if (interactive) {
       this.scene.input.on("pointerdown", this.#startDrag, this);
@@ -112,7 +115,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
     this.#drawPath();
     if (this.currentPath[0]) {
-      this.path.lineTo(pointer.x, pointer.y);
+      this.path.lineTo(pointer.x - this.x, pointer.y - this.y);
       this.path.draw(this.pathGraphics);
     }
   }
@@ -202,7 +205,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.#drawPath();
   }
 
-  public destroyPath(){
+  public destroyPath() {
     this.pathGraphics.clear();
     this.pathGraphics.lineStyle(10, this.lineColor);
   }

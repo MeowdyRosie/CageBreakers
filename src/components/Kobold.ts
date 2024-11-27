@@ -32,14 +32,22 @@ export class Kobold extends Phaser.GameObjects.Container {
   private spellEdges: string[];
   patternsLeft: number;
 
-  constructor(scene: BaseScene, x: number, y: number, scale: number, patternsLeft: number) {
+  constructor(
+    scene: BaseScene,
+    x: number,
+    y: number,
+    scale: number,
+    patternsLeft: number
+  ) {
     super(scene, x, y);
     scene.add.existing(this);
 
     this.kobold = scene.add
-      .sprite(x, y, "kobold")
+      .sprite(0, 0, "kobold")
       .setScale(scale)
       .setOrigin(0.5, 0);
+    this.add(this.kobold);
+
     this.patternsLeft = patternsLeft;
     scene.anims.create({
       key: "idle",
@@ -50,9 +58,19 @@ export class Kobold extends Phaser.GameObjects.Container {
       repeat: -1,
     });
 
+    scene.anims.create({
+      key: "run",
+      frames: scene.anims.generateFrameNames("kobold", {
+        frames: [2, 3],
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
     this.kobold.playAfterDelay("idle", Math.random() * 1000);
 
-    this.circle = new MagicCircle(scene, x, y, 50, scale, false);
+    this.circle = new MagicCircle(scene, 0, 0, 50, scale, false);
+    this.add(this.circle);
     this.setRandomSpellPattern();
   }
 
