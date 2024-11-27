@@ -29,6 +29,7 @@ export class Kobold extends Phaser.GameObjects.Container {
   public declare scene: BaseScene;
   private kobold: Phaser.GameObjects.Image;
   private circle: MagicCircle;
+  private spellEdges: string[];
 
   constructor(scene: BaseScene, x: number, y: number, scale: number) {
     super(scene, x, y);
@@ -40,7 +41,16 @@ export class Kobold extends Phaser.GameObjects.Container {
       .setOrigin(0.5, 0);
 
     this.circle = new MagicCircle(scene, x, y, 50, scale, false);
-    const randomPattern = patterns[Math.floor(Math.random() * patterns.length)];
-    this.circle.setSpellPattern(randomPattern);
+    const lockPattern = patterns[Math.floor(Math.random() * patterns.length)];
+    this.circle.setSpellPattern(lockPattern);
+    this.spellEdges = this.circle.findEdges(lockPattern);
+  }
+
+  trySpell(pattern: string[]) {
+    return this.circle.comparePattern(this.spellEdges, pattern);
+  }
+
+  setFree() {
+    this.circle.setLineColor(0x00aa00);
   }
 }

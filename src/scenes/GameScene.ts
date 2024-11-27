@@ -45,8 +45,11 @@ export class GameScene extends BaseScene {
     this.initTouchControls();
 
     this.circle.on("spell", (edges: string[]) => {
-      const testPattern = this.circle.findEdges([0, 2, 1, 0]);
-      console.log(edges);
+      this.kobolds.forEach((kobold) => {
+        if (kobold.trySpell(edges)) {
+          kobold.setFree();
+        }
+      });
     });
   }
 
