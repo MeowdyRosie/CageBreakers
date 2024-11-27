@@ -50,7 +50,7 @@ export class Kobold extends Phaser.GameObjects.Container {
 
     this.patternsLeft = patternsLeft;
 
-    scene.anims.create({
+    this.kobold.anims.create({
       key: "idle",
       frames: scene.anims.generateFrameNames("kobold", {
         frames: [0, 1],
@@ -59,12 +59,12 @@ export class Kobold extends Phaser.GameObjects.Container {
       repeat: -1,
     });
 
-    scene.anims.create({
+    this.kobold.anims.create({
       key: "run",
       frames: this.scene.anims.generateFrameNames("kobold", {
         frames: [2, 3],
       }),
-      frameRate: 2,
+      frameRate: 4,
       repeat: -1,
     });
 
