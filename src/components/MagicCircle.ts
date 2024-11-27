@@ -183,10 +183,16 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
   }
 
   setSpellPattern(pattern: number[]) {
+    this.clearSpellPattern();
     pattern.forEach((vert) => {
       this.currentPath.push(this.buttons[vert]);
     });
     this.#drawPath();
+  }
+
+  clearSpellPattern() {
+    this.pathGraphics.clear();
+    this.pathGraphics.lineStyle(10, this.lineColor);
   }
 
   setLineColor(color: number) {
