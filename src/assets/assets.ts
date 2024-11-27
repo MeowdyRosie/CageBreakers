@@ -9,7 +9,6 @@ const images: Image[] = [
 
   // Characters
   image("characters/dragon_walk_01", "dragon"),
-  image("characters/kobold", "kobold"),
 
   // Items
   image("items/coin", "coin"),
