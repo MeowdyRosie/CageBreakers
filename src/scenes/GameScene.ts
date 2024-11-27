@@ -47,7 +47,7 @@ export class GameScene extends BaseScene {
     this.circle.on("spell", (edges: string[]) => {
       this.kobolds.forEach((kobold) => {
         if (kobold.trySpell(edges)) {
-          kobold.setFree();
+          kobold.setRandomSpellPattern();
         }
       });
     });

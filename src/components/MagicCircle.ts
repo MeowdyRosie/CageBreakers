@@ -184,6 +184,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
   setSpellPattern(pattern: number[]) {
     this.clearSpellPattern();
+    this.pathGraphics.lineStyle(10, this.lineColor);
     pattern.forEach((vert) => {
       this.currentPath.push(this.buttons[vert]);
     });
@@ -191,8 +192,9 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
   }
 
   clearSpellPattern() {
+    this.path = this.scene.add.path(0, 0);
     this.pathGraphics.clear();
-    this.pathGraphics.lineStyle(10, this.lineColor);
+    this.currentPath = [];
   }
 
   setLineColor(color: number) {

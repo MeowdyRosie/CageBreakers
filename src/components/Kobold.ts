@@ -52,13 +52,18 @@ export class Kobold extends Phaser.GameObjects.Container {
     this.kobold.playAfterDelay("idle", Math.random() * 1000);
 
     this.circle = new MagicCircle(scene, x, y, 50, scale, false);
-    const lockPattern = patterns[Math.floor(Math.random() * patterns.length)];
-    this.circle.setSpellPattern(lockPattern);
-    this.spellEdges = this.circle.findEdges(lockPattern);
+    this.setRandomSpellPattern();
   }
 
   trySpell(pattern: string[]) {
     return this.circle.comparePattern(this.spellEdges, pattern);
+  }
+
+  setRandomSpellPattern() {
+    const lockPattern = patterns[Math.floor(Math.random() * patterns.length)];
+    this.circle.clearSpellPattern();
+    this.circle.setSpellPattern(lockPattern);
+    this.spellEdges = this.circle.findEdges(lockPattern);
   }
 
   setFree() {
