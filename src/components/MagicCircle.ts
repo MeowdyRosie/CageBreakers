@@ -201,4 +201,9 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.lineColor = color;
     this.#drawPath();
   }
+
+  public destroyPath(){
+    this.pathGraphics.clear();
+    this.pathGraphics.lineStyle(10, this.lineColor);
+  }
 }
