@@ -2,26 +2,25 @@ import { BaseScene } from "@/scenes/BaseScene";
 import MagicCircle from "./MagicCircle";
 
 const patterns = [
-  [1, 3, 4],
-  [0, 3, 6],
-  [2, 3, 5],
-  [6, 3, 0, 2],
-  [4, 6, 3, 0, 2],
-  [1, 4, 3, 5, 2],
-  [3, 1, 0, 2, 3],
-  [6, 3, 0, 2, 3],
-  [0, 1, 3, 5, 6],
-  [6, 3, 1, 3, 2],
-  [6, 3, 0, 2, 5],
-  [4, 1, 3, 2, 5],
-  [0, 3, 2, 3, 6, 5],
-  [6, 3, 5, 3, 0, 2],
-  [4, 3, 2, 0, 1, 3, 5],
-  [3, 0, 2, 3, 5, 6, 3],
-  [0, 3, 6, 3, 1, 3, 5],
-  [1, 3, 0, 3, 2, 3, 6],
-  [1, 3, 5, 3, 2, 3, 4],
-  [0, 3, 2, 3, 5, 3, 6, 3, 4, 3, 1],
+  [1, 0, 6, 0, 4, 5],
+  [1, 4, 0, 2, 5, 0, 3, 6],
+  [4, 1, 6, 5],
+  [2, 5, 0, 1, 4],
+  [1, 4, 5, 0, 6, 1],
+  [1, 4],
+  [3, 2, 0, 6, 5],
+  [6, 1, 0, 5, 0, 4],
+  [1, 2, 5, 4],
+  [1, 0, 2, 3, 6, 5, 0, 4],
+  [4, 1, 6, 0, 5],
+  [3, 4, 1, 6],
+  [4, 1, 6],
+  [2, 3, 0, 5, 6],
+  [2, 5, 0, 3, 6],
+  [2, 0, 1, 0, 6, 0, 4],
+  [2, 5, 6, 3, 2],
+  [4, 1, 6, 0],
+  [3, 6, 1, 2, 5],
 ];
 
 export class Kobold extends Phaser.GameObjects.Container {
@@ -82,7 +81,6 @@ export class Kobold extends Phaser.GameObjects.Container {
   }
 
   trySpell(pattern: string[]) {
-    console.log(this.spellEdges, pattern);
     return this.circle.comparePattern(this.spellEdges, pattern);
   }
 
