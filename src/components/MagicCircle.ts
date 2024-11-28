@@ -52,20 +52,16 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
     addButton(0, 0, 0);
     for (let i = 0; i < points; i++) {
-      const p = Math.PI * 2 * (i / points) + Math.PI / points;
-      const x = Math.cos(p) * radius;
-      const y = Math.sin(p) * radius;
+      const p = Math.PI * 2 * (i / points) + (Math.PI * 3) / points;
+      const x = Math.cos(-p) * radius;
+      const y = Math.sin(-p) * radius;
       addButton(x, y, i + 1);
     }
-
-    this.buttons.sort((a, b) => {
-      if (a.y !== b.y) {
-        return a.y - b.y;
-      } else {
-        return a.x - b.x;
-      }
+    /*
+    this.buttons.forEach((btn, index) => {
+      btn.add(scene.add.text(0, 0, `${index}`));
     });
-
+*/
     this.buttons.forEach((button, index) => {
       button.setName(`${index}`);
     });
@@ -97,8 +93,8 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
     if (
       buttons[0] &&
-      Number(buttons[0].name) == 3 &&
-      Number(this.currentPath[this.currentPath.length - 1].name) != 3
+      Number(buttons[0].name) == 0 &&
+      Number(this.currentPath[this.currentPath.length - 1].name) != 0
     ) {
       this.currentPath.push(buttons[0]);
     }
@@ -106,7 +102,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     if (
       findIndex == 0 &&
       this.currentPath.length > 2 &&
-      Number(buttons[0].name) != 3
+      Number(buttons[0].name) != 0
     ) {
       this.currentPath.push(buttons[0]);
       this.#stopDrag();
@@ -151,7 +147,11 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
   }
 
   findEdges(pattern: number[]) {
-    const opposites = [6, 5, 4];
+    const opposites: Record<number, number> = {
+      [1]: 4,
+      [2]: 5,
+      [3]: 6,
+    };
     const isOpposite = (a: number, b: number) => {
       const min = Math.min(a, b);
       const max = Math.max(a, b);
@@ -161,7 +161,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     // Insert center verteces if points are opposite on the circle
     for (let i = 1; i < pattern.length; i++) {
       if (isOpposite(pattern[i - 1], pattern[i])) {
-        pattern.splice(i, 0, 3);
+        pattern.splice(i, 0, 0);
       }
     }
 
