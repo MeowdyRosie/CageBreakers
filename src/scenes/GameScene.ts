@@ -14,11 +14,12 @@ export class GameScene extends BaseScene {
   private circle: MagicCircle;
   private currentLevel: number = 0;
   private timer: TimerEvent;
-  private ui: UI;
+  public levelCompleted: boolean = false;
+	private ui: UI;
   private levels = [
     {
       cages: 3,
-      time: 10,
+      time: 2,
       patterns: 2,
     },
     {
@@ -44,7 +45,6 @@ export class GameScene extends BaseScene {
     this.background.setOrigin(0.5, 0);
     this.background.setScale(0.5, 0.5);
     this.fitToScreen(this.background);
-    this.initTouchControls();
 
     this.timer = this.time.addEvent({
       delay: 1000 * this.levels[this.currentLevel].time - 5, // ms

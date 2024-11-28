@@ -7,8 +7,11 @@ import Timeline = Phaser.Time.Timeline;
 export class Dragon extends Phaser.GameObjects.Container {
 	public declare scene: BaseScene;
 	public dragon: Phaser.GameObjects.Sprite;
+	public IsApproaching: boolean = false;
+	public isCompleted: boolean = false;
 
 	private idleTimer: TimerEvent;
+	private approachingTimeLine: Timeline;
 
 	constructor(
 		scene: BaseScene,
@@ -33,14 +36,7 @@ export class Dragon extends Phaser.GameObjects.Container {
 			//args: [],
 			loop: true,
 		});
-	}
-
-	stopIdle() {
-		this.idleTimer.destroy();
-	}
-
-	approaching() {
-		const timeline = this.scene.add.timeline([
+		this.approachingTimeLine = this.scene.add.timeline([
 			{
 				at: 0,
 				run: () => {
@@ -78,10 +74,20 @@ export class Dragon extends Phaser.GameObjects.Container {
 				at: 5000,
 				run: () => {
 					this.dragon.destroy();
-					this.dragon = this.scene.add
-						.sprite(0, 0, "dragon_anger")
-						.setScale(1)
-						.setOrigin(0.5, 0.5);
+					if(this.isCompleted)
+					{
+						this.dragon = this.scene.add
+							.sprite(0, 0, "dragon_anger")
+							.setScale(1)
+							.setOrigin(0.5, 0.5);
+					}
+					else{
+						this.dragon = this.scene.add
+							.sprite(0, 0, "dragon_smug")
+							.setScale(1)
+							.setOrigin(0.5, 0.5);
+					}
+
 					this.add(this.dragon);
 				},
 
@@ -95,7 +101,17 @@ export class Dragon extends Phaser.GameObjects.Container {
 			  }
 			}*/
 		]);
+	}
 
-		timeline.play();
+	stopIdle() {
+		this.idleTimer.destroy();
+	}
+
+	approaching() {
+		if(!this.IsApproaching)
+		{
+			this.approachingTimeLine.play();
+			this.IsApproaching = true;
+		}
 	}
 }

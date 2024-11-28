@@ -13,6 +13,7 @@ const images: Image[] = [
 	image("characters/dragon_charge", "dragon_charge"),
 	image("characters/dragon_fire", "dragon_fire"),
 	image("characters/dragon_anger", "dragon_anger"),
+	image("characters/dragon_smug", "dragon_smug"),
 
 	// Items
 	image("items/coin", "coin"),
