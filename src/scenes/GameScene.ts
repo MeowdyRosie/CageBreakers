@@ -4,6 +4,7 @@ import { Kobold } from "@/components/Kobold";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
 import { Dragon } from "@/components/Dragon";
+import { Level } from "@/components/Level";
 import { UI } from "@/components/UI";
 
 export class GameScene extends BaseScene {
@@ -16,22 +17,25 @@ export class GameScene extends BaseScene {
   private timer: TimerEvent;
   public levelCompleted: boolean = false;
 	private ui: UI;
-  private levels = [
-    {
-      cages: 3,
-      time: 2,
-      patterns: 2,
-    },
-    {
-      cages: 6,
-      time: 60,
-      patterns: 2,
-    },
-  ];
+  private level: Level;
+
+  // = [
+    //{
+      //cages: 3,
+      // 		time: 2,
+      // 		patterns: 2,
+    //},
+    //{
+      //cages: 6,
+      //time: 60,
+      // 		patterns: 2,
+    //},
+  // ];
 
   constructor() {
     super({ key: "GameScene" });
     this.kobolds = [];
+  this.level = [];
   }
 
   create(): void {
@@ -40,6 +44,7 @@ export class GameScene extends BaseScene {
     this.background = this.add.image(this.CX, -300, "background");
 
     this.dragon = new Dragon(this, this.CX, 300, 1);
+    this.level = new Level();
 
     // Dragon moving
     this.background.setOrigin(0.5, 0);
@@ -47,7 +52,7 @@ export class GameScene extends BaseScene {
     this.fitToScreen(this.background);
 
     this.timer = this.time.addEvent({
-      delay: 1000 * this.levels[this.currentLevel].time - 5, // ms
+      delay: this.level.getTime() - 5000, // ms
       callback: () => {
         this.dragon.stopIdle();
         this.dragon.approaching();
@@ -58,13 +63,13 @@ export class GameScene extends BaseScene {
   }
 
   setupGame() {
-    const frontRow = Math.ceil(this.levels[this.currentLevel].cages / 2);
-    const backRow = Math.floor(this.levels[this.currentLevel].cages / 2);
+    const frontRow = Math.ceil(this.level.getCages() / 2);
+    const backRow = Math.floor(this.level.getCages() / 2);
 
     for (let i = 0; i < backRow; i++) {
       const x = ((1 + i) * this.W) / frontRow;
       this.kobolds.push(
-        new Kobold(this, x, 450, 0.2, this.levels[this.currentLevel].patterns)
+        new Kobold(this, x, 450, 0.2, this.level.getPatterns())
       );
     }
 
@@ -72,14 +77,14 @@ export class GameScene extends BaseScene {
       const offset = this.W / frontRow / 2;
       const x = (i * this.W) / frontRow + offset;
       this.kobolds.push(
-        new Kobold(this, x, 500, 0.3, this.levels[this.currentLevel].patterns)
+        new Kobold(this, x, 500, 0.3, this.level.getPatterns())
       );
     }
 
-    /*this.timer = this.time.addEvent({
-			delay: this.levels[this.currentLevel].time * 1000, // ms
-			callback: this.gameOver,
-		});*/
+    this.timer = this.time.addEvent({
+      delay: this.level.getTime(), // ms
+      callback: this.gameOver,
+    });
 
     this.circle = new MagicCircle(this, this.CX, 950, 200, 1, true);
     this.circle.on("spell", (edges: string[]) => {
