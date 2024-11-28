@@ -4,6 +4,7 @@ import { Kobold } from "@/components/Kobold";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
 import { Dragon } from "@/components/Dragon";
+import { UI } from "@/components/UI";
 
 export class GameScene extends BaseScene {
   private background: Phaser.GameObjects.Image;
@@ -13,6 +14,7 @@ export class GameScene extends BaseScene {
   private circle: MagicCircle;
   private currentLevel: number = 0;
   private timer: TimerEvent;
+  private ui: UI;
   private levels = [
     {
       cages: 3,
@@ -95,10 +97,14 @@ export class GameScene extends BaseScene {
         this.endRound();
       }
     });
+
+    this.ui = new UI(this);
+    this.ui.showNewRound(this.currentLevel);
   }
 
   endRound() {
     this.currentLevel++;
+    this.circle.destroyPath();
     const timeToFlee = 3000;
     this.kobolds.forEach((kobold) => {
       kobold.flee(timeToFlee);
