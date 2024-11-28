@@ -44,7 +44,7 @@ export class Kobold extends Phaser.GameObjects.Container {
 
     this.cageBack = scene.add
       .sprite(0, 0, "cage_back")
-      .setScale(scale)
+      .setScale(scale * 2)
       .setOrigin(0.5, 0);
     this.add(this.cageBack);
     this.kobold = scene.add
@@ -54,9 +54,28 @@ export class Kobold extends Phaser.GameObjects.Container {
     this.add(this.kobold);
     this.cageFront = scene.add
       .sprite(0, 0, "cage_front")
-      .setScale(scale)
+      .setScale(scale * 2)
       .setOrigin(0.5, 0);
     this.add(this.cageFront);
+    this.cageBack.anims.create({
+      key: "idle",
+      frames: scene.anims.generateFrameNames("cage_back", {
+        frames: [0, 1, 2, 3],
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+    this.cageFront.anims.create({
+      key: "idle",
+      frames: scene.anims.generateFrameNames("cage_back", {
+        frames: [0, 1, 2, 3],
+      }),
+      frameRate: 4,
+      repeat: -1,
+    });
+
+    this.cageBack.play("idle");
+    this.cageFront.play("idle");
 
     this.patternsLeft = patternsLeft;
 
@@ -102,7 +121,6 @@ export class Kobold extends Phaser.GameObjects.Container {
     this.scene.tweens.add({
       targets: this.cageBack,
       alpha: 0,
-      
       ease: "Linear",
       duration: 200,
     });
