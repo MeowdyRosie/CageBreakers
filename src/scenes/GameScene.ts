@@ -42,7 +42,7 @@ export class GameScene extends BaseScene {
 		this.background = this.add.image(this.CX, -300, "background");
 
 		this.dragon = new Dragon(this, this.CX, 300, 1);
-    this.levels.push(new Levels(this,1,10,2))
+    this.levels.push(new Levels(this))
         // Dragon moving
 		this.background.setOrigin(0.5, 0);
     this.background.setScale(0.5,0.5)
@@ -75,10 +75,10 @@ export class GameScene extends BaseScene {
 			this.kobolds.push(new Kobold(this, x, 500, 0.3, this.levels[this.currentLevel].patterns));
 		}
 
-		/*this.timer = this.time.addEvent({
+		this.timer = this.time.addEvent({
 			delay: this.levels[this.currentLevel].time * 1000, // ms
 			callback: this.gameOver,
-		});*/
+		});
 
 		this.circle = new MagicCircle(this, this.CX, 950, 200, 1, true);
 		this.circle.on("spell", (edges: string[]) => {
