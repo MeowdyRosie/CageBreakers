@@ -43,7 +43,9 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       btn.setSize(100, 100);
       if (interactive) {
         btn.setInteractive();
-        btn.add(scene.add.sprite(0, 0, "circle").setScale(scale));
+        btn.add(
+          scene.add.sprite(0, 0, "circle").setScale(scale).setTint(0xff0000)
+        );
       }
       btn.setName(index.toString());
       this.buttons.push(btn);
