@@ -4,7 +4,7 @@ import { Kobold } from "@/components/Kobold";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
 import { Dragon } from "@/components/Dragon";
-import { Level } from "@/components/Level";
+import { Level } from "@/components/Levels";
 import { UI } from "@/components/UI";
 
 export class GameScene extends BaseScene {
@@ -35,7 +35,6 @@ export class GameScene extends BaseScene {
   constructor() {
     super({ key: "GameScene" });
     this.kobolds = [];
-  this.level = [];
   }
 
   create(): void {
