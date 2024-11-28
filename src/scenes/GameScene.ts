@@ -35,12 +35,13 @@ export class GameScene extends BaseScene {
 
 		this.fade(false, 200, 0x000000);
 
-		this.background = this.add.image(0, 0, "background");
+		this.background = this.add.image(this.CX, -300, "background");
 
 		this.dragon = new Dragon(this, this.CX, 300, 1);
 
         // Dragon moving
-		this.background.setOrigin(0, 0);
+		this.background.setOrigin(0.5, 0);
+    this.background.setScale(0.5,0.5)
 		this.fitToScreen(this.background);
 		this.initTouchControls();
 
