@@ -52,6 +52,7 @@ export class GameScene extends BaseScene {
   }
 
   setupGame() {
+    this.kobolds = [];
     const frontRow = Math.ceil(this.level.getCages() / 2);
     const backRow = Math.floor(this.level.getCages() / 2);
 
