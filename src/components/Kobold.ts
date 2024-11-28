@@ -17,11 +17,10 @@ const patterns = [
   [0, 3, 2, 3, 6, 5],
   [6, 3, 5, 3, 0, 2],
   [4, 3, 2, 0, 1, 3, 5],
-  [0, 3, 6, 3, 1, 3, 5],
   [3, 0, 2, 3, 5, 6, 3],
-  [1, 3, 5, 3, 4, 3, 2],
+  [0, 3, 6, 3, 1, 3, 5],
   [1, 3, 0, 3, 2, 3, 6],
-  [3, 1, 4, 3, 2, 5, 3],
+  [1, 3, 5, 3, 2, 3, 4],
   [0, 3, 2, 3, 5, 3, 6, 3, 4, 3, 1],
 ];
 
@@ -83,6 +82,7 @@ export class Kobold extends Phaser.GameObjects.Container {
   }
 
   trySpell(pattern: string[]) {
+    console.log(this.spellEdges, pattern);
     return this.circle.comparePattern(this.spellEdges, pattern);
   }
 
