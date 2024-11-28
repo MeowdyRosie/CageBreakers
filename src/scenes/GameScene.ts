@@ -79,7 +79,7 @@ export class GameScene extends BaseScene {
 		this.circle = new MagicCircle(this, this.CX, 950, 200, 1, true);
 		this.circle.on("spell", (edges: string[]) => {
 			this.kobolds.forEach((kobold) => {
-				if (kobold.trySpell(edges)) {
+				if (kobold.patternsLeft > 0 && kobold.trySpell(edges)) {
 					kobold.patternsLeft--;
 					if (kobold.patternsLeft == 0) {
 						kobold.setFree();
