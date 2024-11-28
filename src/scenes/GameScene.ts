@@ -4,6 +4,7 @@ import {Kobold} from "@/components/Kobold";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
 import {Dragon} from "@/components/Dragon";
+import {Levels} from "@/components/Levels"
 
 export class GameScene extends BaseScene {
 	private background: Phaser.GameObjects.Image;
@@ -13,22 +14,25 @@ export class GameScene extends BaseScene {
 	private circle: MagicCircle;
 	private currentLevel: number = 0;
 	private timer: TimerEvent;
-	private levels = [
-		{
-			cages: 3,
-			time: 10,
-			patterns: 2
-		},
-		{
-			cages: 6,
-			time: 60,
-			patterns: 2
-		},
-	]
+	private levels: Levels[];
+  
+  // = [
+	// 	{
+	// 		cages: 3,
+	// 		time: 10,
+	// 		patterns: 2
+	// 	},
+	// 	{
+	// 		cages: 6,
+	// 		time: 60,
+	// 		patterns: 2
+	// 	},
+	// ]
 
 	constructor() {
 		super({key: "GameScene"});
 		this.kobolds = [];
+    this.levels = [];
 	}
 
 	create(): void {
@@ -38,7 +42,7 @@ export class GameScene extends BaseScene {
 		this.background = this.add.image(this.CX, -300, "background");
 
 		this.dragon = new Dragon(this, this.CX, 300, 1);
-
+    this.levels.push(new Levels(this,1,10,2))
         // Dragon moving
 		this.background.setOrigin(0.5, 0);
     this.background.setScale(0.5,0.5)
