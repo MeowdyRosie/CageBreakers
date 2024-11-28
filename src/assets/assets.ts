@@ -35,7 +35,7 @@ const spritesheets: SpriteSheet[] = [
 	spritesheet("characters/kobold_mage", "kobold_mage", 499, 758),
 	spritesheet("characters/mouse", "mouse", 499, 758),
 	spritesheet("characters/wolf", "wolf", 499, 758),
-	spritesheet("characters/bird", "bird", 499, 758),
+	
 ];
 
 /* Audios */
