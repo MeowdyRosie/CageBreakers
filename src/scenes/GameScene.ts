@@ -18,9 +18,8 @@ export class GameScene extends BaseScene {
   private ui: UI;
   private level: Level;
 
-
   constructor() {
-    super({key: "GameScene"});
+    super({ key: "GameScene" });
     this.kobolds = [];
   }
 
@@ -49,6 +48,7 @@ export class GameScene extends BaseScene {
   }
 
   setupGame() {
+    this.kobolds = [];
     const frontRow = Math.ceil(this.level.getCages() / 2);
     const backRow = Math.floor(this.level.getCages() / 2);
 
