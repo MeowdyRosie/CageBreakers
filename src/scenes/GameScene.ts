@@ -1,12 +1,16 @@
-import {BaseScene} from "@/scenes/BaseScene";
+import { BaseScene } from "@/scenes/BaseScene";
 import MagicCircle from "@/components/MagicCircle";
-import {Kobold} from "@/components/Kobold";
+import { Kobold } from "@/components/Kobold";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
-import {Dragon} from "@/components/Dragon";
-import {Level} from "@/components/Levels";
-import {UI} from "@/components/UI";
+import { Dragon } from "@/components/Dragon";
+import { Difficulty, Level } from "@/components/Levels";
+import { UI } from "@/components/UI";
 
+type GameSceneData = {
+  level: number;
+  difficulty: Difficulty;
+};
 export class GameScene extends BaseScene {
   private background: Phaser.GameObjects.Image;
   private kobolds: Kobold[];
@@ -20,16 +24,16 @@ export class GameScene extends BaseScene {
 
   constructor() {
     super({ key: "GameScene" });
-    this.kobolds = [];
   }
 
-  create(): void {
+  create({ level, difficulty }: GameSceneData): void {
+    this.kobolds = [];
     this.fade(false, 200, 0x000000);
 
     this.background = this.add.image(this.CX, -300, "background");
 
     this.dragon = new Dragon(this, this.CX, 300, 1);
-    this.level = new Level();
+    this.level = new Level(difficulty, level);
 
     // Dragon moving
     this.background.setOrigin(0.5, 0);
@@ -104,16 +108,13 @@ export class GameScene extends BaseScene {
     this.time.addEvent({
       delay: timeToFlee,
       callback: () => {
-        this.kobolds.forEach((kobold) => {
-          kobold.destroy();
-        });
-        this.setupGame();
+        const { difficulty, level } = this.level;
+        this.scene.restart({ difficulty, level: level + 1 } as GameSceneData);
       },
     });
   }
 
-  finishGame() {
-  }
+  finishGame() {}
 
   update(time: number, delta: number) {
     //console.log(this.timer.getOverallRemainingSeconds());

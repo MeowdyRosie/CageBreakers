@@ -94,7 +94,6 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
         button
           .on("pointerover", () => {
             if (this.currentPath.indexOf(button) < 0) {
-              console.log("found", button.name);
               this.scene.tweens.add({
                 targets: button,
                 scale: scale * 1.2,
