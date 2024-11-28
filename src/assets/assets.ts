@@ -35,6 +35,8 @@ const spritesheets: SpriteSheet[] = [
 	spritesheet("characters/kobold_mage", "kobold_mage", 499, 758),
 	spritesheet("characters/mouse", "mouse", 499, 758),
 	spritesheet("characters/wolf", "wolf", 499, 758),
+	spritesheet("items/cage_front", "cage_front", 499, 758),
+	spritesheet("items/cage_back", "cage_back", 499, 758),
 	
 ];
 
