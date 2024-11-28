@@ -125,8 +125,8 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.pathGraphics = scene.add.graphics();
     this.add(this.pathGraphics);
     this.lineOutline.add(this.pathGraphics, {
-      thickness: 8,
-      outlineColor: 0x00cccc,
+      thickness: interactive ? 8 : 4,
+      outlineColor: interactive ? 0x00cccc : 0xffaaaa,
       quality: 0.1,
     });
 
