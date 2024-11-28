@@ -28,6 +28,8 @@ export class Kobold extends Phaser.GameObjects.Container {
   private kobold: Phaser.GameObjects.Sprite;
   private circle: MagicCircle;
   private spellEdges: string[];
+  private cageBack: Phaser.GameObjects.Sprite;
+  private cageFront: Phaser.GameObjects.Sprite;
   patternsLeft: number;
 
   constructor(
@@ -40,11 +42,21 @@ export class Kobold extends Phaser.GameObjects.Container {
     super(scene, x, y);
     scene.add.existing(this);
 
+    this.cageBack = scene.add
+      .sprite(0, 0, "cage_back")
+      .setScale(scale)
+      .setOrigin(0.5, 0);
+    this.add(this.cageBack);
     this.kobold = scene.add
       .sprite(0, 0, "kobold")
       .setScale(scale)
       .setOrigin(0.5, 0);
     this.add(this.kobold);
+    this.cageFront = scene.add
+      .sprite(0, 0, "cage_front")
+      .setScale(scale)
+      .setOrigin(0.5, 0);
+    this.add(this.cageFront);
 
     this.patternsLeft = patternsLeft;
 
@@ -87,5 +99,29 @@ export class Kobold extends Phaser.GameObjects.Container {
   setFree() {
     this.circle.setLineColor(0x00aa00);
     this.kobold.play("run");
+    this.scene.tweens.add({
+      targets: this.cageBack,
+      alpha: 0,
+      
+      ease: "Linear",
+      duration: 200,
+    });
+    this.scene.tweens.add({
+      targets: this.cageFront,
+      alpha: 0,
+      scale: 0.01,
+      x: 1000,
+      ease: "Linear",
+      duration: 1000,
+    });
+    this.scene.flash(500);
+  }
+
+  flee(duration: number) {
+    this.scene.tweens.add({
+      targets: this.kobold,
+      x: 1000,
+      duration: duration,
+    });
   }
 }
