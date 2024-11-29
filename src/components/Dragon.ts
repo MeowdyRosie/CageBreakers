@@ -74,7 +74,7 @@ export class Dragon extends Phaser.GameObjects.Container {
             .setOrigin(0.5, 0.5);
           this.add(this.dragon);
           this.fire = scene.add
-            .sprite(0, 490, "dragon_firing")
+            .sprite(0, 340, "dragon_firing")
             .setScale(this.scaleDragon + 0.1)
             .setOrigin(0.5, 0.5);
           this.fire.setDepth(100000);
