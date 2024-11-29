@@ -63,7 +63,8 @@ export class TitleScene extends BaseScene {
       .setY(this.CY - 100);
     this.bg2 = this.add
       .image(this.CX, this.CY, "bg_layer2")
-      .setX(this.CX + 200);
+      .setX(this.CX + 200)
+      .setY(this.CY + 100);
     this.bg3 = this.add
       .image(this.CX, this.CY, "bg_layer3")
       .setX(this.CX - 200);
@@ -194,9 +195,10 @@ export class TitleScene extends BaseScene {
     this.tweens.add({
       targets: this.bg2,
       x: this.CX,
+      y: this.CY,
       ease: "Cubic",
       duration: 2000,
-      delay: 300,
+      delay: 200,
     });
     this.tweens.add({
       targets: this.bg3,
