@@ -52,14 +52,27 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       const tabletRunes = scene.add
         .sprite(0, 0, "runetablet_runes")
         .setScale(0.625);
-      this.add(scene.add.sprite(0, 0, "runetablet_base").setScale(0.625));
+      this.add(
+        scene.add
+          .sprite(0, 0, "runetablet_base")
+          .setScale(0.625)
+          .setAlpha(0.5, 0.5, 1, 1)
+          .setCrop(0, 0, 1230, 615)
+      );
+      this.add(
+        scene.add
+          .sprite(0, 0, "runetablet_base")
+          .setScale(0.625)
+          .setAlpha(1, 1, 1, 1)
+          .setCrop(0, 615, 1230, 615)
+      );
       this.add(tabletStripes);
       this.add(tabletRunes);
       scene.tweens
         .add({
           from: 0,
           to: 1,
-          duration: 10000,
+          duration: 60000,
           targets: tabletRunes,
           loop: Number.MAX_SAFE_INTEGER,
           onUpdate(tween) {
@@ -71,21 +84,34 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
         .play();
     }
 
-    type SpriteButton = Button & { sprite?: Phaser.GameObjects.Sprite };
+    type SpriteButton = Button & {
+      sprite?: Phaser.GameObjects.Sprite;
+      sprite2?: Phaser.GameObjects.Sprite;
+    };
 
-    const addButton = (x: number, y: number, index: number, tint: number) => {
+    const addButton = (x: number, y: number, index: number) => {
       const btn: SpriteButton = new Button(scene, x, y);
       btn.setSize(100, 100);
       if (interactive) {
         btn.setInteractive();
         const buttonSprite = scene.add
-          .sprite(0, 0, "circle")
-          .setScale(scale)
-          .setTint(tint)
+          .sprite(0, 0, "runetablet_node_inactive")
+          .setScale(scale * 0.625)
           .setOrigin(0.5, 0.5);
-        buttonSprite.preFX?.addColorMatrix().hue(120);
+        buttonSprite.preFX
+          ?.addColorMatrix()
+          .hue(Math.floor((Math.random() * 360) / 45) * 45);
+        const buttonSprite2 = scene.add
+          .sprite(0, 0, "runetablet_node_active")
+          .setScale(scale * 0.625)
+          .setOrigin(0.5, 0.5);
+        buttonSprite2.preFX
+          ?.addColorMatrix()
+          .hue(Math.floor((Math.random() * 360) / 45) * 45);
         btn.sprite = buttonSprite;
+        btn.sprite2 = buttonSprite2;
         btn.add(buttonSprite);
+        btn.add(buttonSprite2);
       }
       btn.setName(index.toString());
       this.buttons.push(btn);
@@ -93,12 +119,12 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       return btn;
     };
     {
-      const button = addButton(0, 0, 0, 0x0000ff);
+      const button = addButton(0, 0, 0);
       button
         .on("pointerover", () => {
           this.scene.tweens.add({
             targets: button.sprite,
-            scale: scale * 1.2,
+            scale: scale * 1.2 * 0.625,
             ease: "Linear",
             duration: 100,
           });
@@ -106,7 +132,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
         .on("pointerout", () => {
           this.scene.tweens.add({
             targets: button.sprite,
-            scale: scale * 1,
+            scale: scale * 0.625,
             ease: "Linear",
             duration: 100,
           });
@@ -115,7 +141,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
         const p = Math.PI * 2 * (i / points) + (Math.PI * 3) / points;
         const x = Math.cos(-p) * radius;
         const y = Math.sin(-p) * radius;
-        const button = addButton(x, y, i + 1, 0xff0000);
+        const button = addButton(x, y, i + 1);
         button
           .on("pointerover", () => {
             if (this.currentPath.indexOf(button) < 0) {
