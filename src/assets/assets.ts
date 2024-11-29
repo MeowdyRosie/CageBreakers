@@ -33,10 +33,15 @@ const images: Image[] = [
   image("ui/no_sound", "no_sound"),
 
   // Titlescreen
-  image("titlescreen/sky", "title_sky"),
-  image("titlescreen/background", "title_background"),
-  image("titlescreen/foreground", "title_foreground"),
-  image("titlescreen/character", "title_character"),
+  image("titlescreen/background_base", "bg_base"),
+  image("titlescreen/background_layer1", "bg_layer1"),
+  image("titlescreen/background_layer2", "bg_layer2"),
+  image("titlescreen/background_layer3", "bg_layer3"),
+  image("titlescreen/background_layer4", "bg_layer4"),
+  image("titlescreen/background_layer5", "bg_layer5"),
+  image("titlescreen/background_layer6", "bg_layer6"),
+  image("titlescreen/mainmenu_text_01", "mainmenu_1"),
+  image("titlescreen/mainmenu_text_02", "mainmenu_2"),
 ];
 
 /* Spritesheets */
