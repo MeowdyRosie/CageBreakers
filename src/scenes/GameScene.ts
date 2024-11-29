@@ -94,7 +94,7 @@ export class GameScene extends BaseScene {
       callback: this.gameOver,
     });
 
-    this.circle = new MagicCircle(this, this.CX, 950, 200, 1, true);
+    this.circle = new MagicCircle(this, this.CX, 1000, 200, 1, true);
     this.circle.on("spell", (edges: string[]) => {
       this.prisoners.forEach((kobold) => {
         if (kobold.patternsLeft > 0 && kobold.trySpell(edges)) {

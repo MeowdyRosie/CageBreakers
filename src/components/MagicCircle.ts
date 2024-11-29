@@ -45,6 +45,32 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       "rexOutlinePipeline"
     ) as OutlinePipelinePlugin;
 
+    if (interactive) {
+      const tabletStripes = scene.add
+        .sprite(0, 0, "runetablet_stripes")
+        .setScale(0.625);
+      const tabletRunes = scene.add
+        .sprite(0, 0, "runetablet_runes")
+        .setScale(0.625);
+      this.add(scene.add.sprite(0, 0, "runetablet_base").setScale(0.625));
+      this.add(tabletStripes);
+      this.add(tabletRunes);
+      scene.tweens
+        .add({
+          from: 0,
+          to: 1,
+          duration: 10000,
+          targets: tabletRunes,
+          loop: Number.MAX_SAFE_INTEGER,
+          onUpdate(tween) {
+            const rot = tween.progress * Math.PI * 2;
+            tabletStripes.setRotation(rot);
+            tabletRunes.setRotation(-rot);
+          },
+        })
+        .play();
+    }
+
     type SpriteButton = Button & { sprite?: Phaser.GameObjects.Sprite };
 
     const addButton = (x: number, y: number, index: number, tint: number) => {
@@ -57,6 +83,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
           .setScale(scale)
           .setTint(tint)
           .setOrigin(0.5, 0.5);
+        buttonSprite.preFX?.addColorMatrix().hue(120);
         btn.sprite = buttonSprite;
         btn.add(buttonSprite);
       }
@@ -72,7 +99,6 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
           this.scene.tweens.add({
             targets: button.sprite,
             scale: scale * 1.2,
-            tint: 0x00ffff,
             ease: "Linear",
             duration: 100,
           });
@@ -81,7 +107,6 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
           this.scene.tweens.add({
             targets: button.sprite,
             scale: scale * 1,
-            tint: 0x0000ff,
             ease: "Linear",
             duration: 100,
           });

@@ -21,6 +21,11 @@ const images: Image[] = [
   // UI
   image("ui/hud", "hud"),
   image("ui/timer", "timer"),
+  image("ui/runetablet_base", "runetablet_base"),
+  image("ui/runetablet_node_active", "runetablet_node_active"),
+  image("ui/runetablet_node_inactive", "runetablet_node_inactive"),
+  image("ui/runetablet_runes", "runetablet_runes"),
+  image("ui/runetablet_stripes", "runetablet_stripes"),
 
   // Titlescreen
   image("titlescreen/sky", "title_sky"),
