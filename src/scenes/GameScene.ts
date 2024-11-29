@@ -35,7 +35,7 @@ export class GameScene extends BaseScene {
 
     this.background = this.add.image(this.CX, 0, "background");
 
-    this.dragon = new Dragon(this, this.CX, 200, 1);
+    this.dragon = new Dragon(this, this.CX, 140, 1);
     this.level = new Level(difficulty, level);
 
     // Dragon moving
@@ -77,14 +77,14 @@ export class GameScene extends BaseScene {
   setupGame() {
     this.prisoners = [];
     const prisonerCount = this.level.getCages();
-    const frontRow = Math.ceil(this.level.getCages() / 2);
-    const backRow = Math.floor(this.level.getCages() / 2);
+    const frontRow = Math.ceil(prisonerCount / 2);
+    const backRow = Math.floor(prisonerCount / 2);
     const assumeFrontRow = prisonerCount % 2 ? frontRow : frontRow + 1;
 
     for (let i = 0; i < backRow; i++) {
       const x = ((1 + i) * this.W) / assumeFrontRow;
       this.prisoners.push(
-        new Prisoners(this, x, 450, 0.2, this.level.getPatterns())
+        new Prisoners(this, x, 420, 0.18, this.level.getPatterns())
       );
     }
 
@@ -92,7 +92,7 @@ export class GameScene extends BaseScene {
       const offset = this.W / assumeFrontRow / 2;
       const x = (i * this.W) / assumeFrontRow + offset;
       this.prisoners.push(
-        new Prisoners(this, x, 500, 0.3, this.level.getPatterns())
+        new Prisoners(this, x, 450, 0.2, this.level.getPatterns())
       );
     }
 

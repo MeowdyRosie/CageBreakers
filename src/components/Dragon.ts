@@ -29,7 +29,7 @@ export class Dragon extends Phaser.GameObjects.Container {
 		var t = 0;
 
 		this.dragon = scene.add
-			.sprite(0, 340, "dragon_walk")
+			.sprite(0, 140, "dragon_walk")
 			.setScale(scale)
 			.setOrigin(0.5, 0.5);
 		this.add(this.dragon);
