@@ -56,14 +56,13 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
         scene.add
           .sprite(0, 0, "runetablet_base")
           .setScale(0.625)
-          .setAlpha(0.5, 0.5, 1, 1)
+          .setAlpha(0.1, 0.1, 1, 1)
           .setCrop(0, 0, 1230, 615)
       );
       this.add(
         scene.add
           .sprite(0, 0, "runetablet_base")
           .setScale(0.625)
-          .setAlpha(1, 1, 1, 1)
           .setCrop(0, 615, 1230, 615)
       );
       this.add(tabletStripes);

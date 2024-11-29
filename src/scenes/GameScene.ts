@@ -69,21 +69,21 @@ export class GameScene extends BaseScene {
 
   setupGame() {
     this.prisoners = [];
-    console.log("asd", this.level.getCages());
+    const prisonerCount = this.level.getCages();
     const frontRow = Math.ceil(this.level.getCages() / 2);
     const backRow = Math.floor(this.level.getCages() / 2);
+    const assumeFrontRow = prisonerCount % 2 ? frontRow : frontRow + 1;
 
     for (let i = 0; i < backRow; i++) {
-      const x = frontRow > 1 ? ((1 + i) * this.W) / frontRow : this.CX + 100;
+      const x = ((1 + i) * this.W) / assumeFrontRow;
       this.prisoners.push(
         new Prisoners(this, x, 450, 0.2, this.level.getPatterns())
       );
     }
 
     for (let i = 0; i < frontRow; i++) {
-      const offset =
-        frontRow == 1 && backRow == 1 ? this.CX - 100 : this.W / frontRow / 2;
-      const x = (i * this.W) / frontRow + offset;
+      const offset = this.W / assumeFrontRow / 2;
+      const x = (i * this.W) / assumeFrontRow + offset;
       this.prisoners.push(
         new Prisoners(this, x, 500, 0.3, this.level.getPatterns())
       );
