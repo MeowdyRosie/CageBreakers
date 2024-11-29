@@ -34,7 +34,6 @@ export class GameScene extends BaseScene {
     this.fade(false, 200, 0x000000);
 
     this.background = this.add.image(this.CX, 0, "background");
-
     this.dragon = new Dragon(this, this.CX, 140, 1);
     this.level = new Level(difficulty, level);
 
