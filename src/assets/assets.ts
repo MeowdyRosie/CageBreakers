@@ -5,10 +5,6 @@ import { image, sound, music, loadFont, spritesheet } from "./util";
 const images: Image[] = [
   // Backgrounds
   image("backgrounds/background", "background"),
-  image("backgrounds/backgroundFireAnim1", "background_fire_1"),
-  image("backgrounds/backgroundFireAnim2", "background_fire_2"),
-  image("backgrounds/backgroundFireAnim3", "background_fire_3"),
-  image("backgrounds/backgroundFireAnim4", "background_fire_4"),
   image("circle", "circle"),
 
   // Characters
@@ -59,7 +55,9 @@ const spritesheets: SpriteSheet[] = [
   spritesheet("characters/wolf", "wolf", 499, 758),
   spritesheet("characters/cage_front", "cage_front", 300, 425),
   spritesheet("characters/cage_back", "cage_back", 300, 425),
-  spritesheet("characters/DragonFire", "dragon_firing", 512, 1024)
+  spritesheet("characters/DragonFire", "dragon_firing", 512, 1024),
+  spritesheet("backgrounds/backgroundFireAnim", "background_fire", 640, 1280),
+
 ];
 
 /* Audios */
