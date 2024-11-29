@@ -1,13 +1,13 @@
-import {BaseScene} from "@/scenes/BaseScene";
+import { BaseScene } from "@/scenes/BaseScene";
 import MagicCircle from "@/components/MagicCircle";
-import {Prisoners} from "@/components/Prisoners";
+import { Prisoners } from "@/components/Prisoners";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
-import {Dragon} from "@/components/Dragon";
-import {Difficulty, Level} from "@/components/Levels";
-import {UI} from "@/components/UI";
-import {Timer} from "@/components/Timer";
-import {Music} from "@/components/Music";
+import { Dragon } from "@/components/Dragon";
+import { Difficulty, Level } from "@/components/Levels";
+import { UI } from "@/components/UI";
+import { Timer } from "@/components/Timer";
+import { Music } from "@/components/Music";
 
 type GameSceneData = {
   level: number;
@@ -30,20 +30,20 @@ export class GameScene extends BaseScene {
   public lose: Phaser.Sound.BaseSound;
 
   constructor() {
-    super({key: "GameScene"});
+    super({ key: "GameScene" });
   }
 
-  create({level, difficulty}: GameSceneData): void {
+  create({ level, difficulty }: GameSceneData): void {
     LevelState.completed = false;
     this.prisoners = [];
     this.fade(false, 200, 0x000000);
 
     this.background = this.add.image(this.CX, 0, "background");
-    this.dragon = new Dragon(this, this.CX, 140, 1);
+    this.dragon = new Dragon(this, this.CX, 340, 0.3);
     this.level = new Level(difficulty, level);
 
-    this.win = this.sound.add('win');
-    this.lose = this.sound.add('lose');
+    this.win = this.sound.add("win");
+    this.lose = this.sound.add("lose");
     // Dragon moving
     this.background.setOrigin(0.5, 0);
     this.background.setScale(0.5, 0.5);
@@ -51,8 +51,8 @@ export class GameScene extends BaseScene {
     this.dragon.on("burnPrisoners", () => {
       this.prisoners.forEach((prisoner) => {
         prisoner.setFire();
-      })
-    })
+      });
+    });
 
     this.timer = this.time.addEvent({
       delay: this.level.getTime(), // ms
@@ -64,7 +64,7 @@ export class GameScene extends BaseScene {
     });
 
     if (!this.musicFirst) {
-      this.musicFirst = new Music(this, "m_first", {volume: 0.4});
+      this.musicFirst = new Music(this, "m_first", { volume: 0.4 });
     }
     this.musicFirst.play();
 
@@ -81,8 +81,7 @@ export class GameScene extends BaseScene {
       onUpdate: (tween) => {
         this.timerObject.redraw(tween.getValue());
       },
-      onComplete: () => {
-      },
+      onComplete: () => {},
     });
   }
 
@@ -156,7 +155,7 @@ export class GameScene extends BaseScene {
     this.time.addEvent({
       delay: timeToFlee,
       callback: () => {
-        const {difficulty, level} = this.level;
+        const { difficulty, level } = this.level;
         this.scene.restart({
           difficulty: "hard",
           level: level + 1,
@@ -165,8 +164,7 @@ export class GameScene extends BaseScene {
     });
   }
 
-  finishGame() {
-  }
+  finishGame() {}
 
   update(time: number, delta: number) {
     this.circle.update(time, delta);
@@ -207,5 +205,5 @@ export class GameScene extends BaseScene {
 }
 
 export const LevelState = {
-  completed: false
-}
+  completed: false,
+};

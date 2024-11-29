@@ -1,36 +1,30 @@
-import {BaseScene} from "@/scenes/BaseScene";
+import { BaseScene } from "@/scenes/BaseScene";
 import MagicCircle from "./MagicCircle";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
-import {LevelState} from "@/scenes/GameScene";
-import {Music} from "@/components/Music";
-
+import { LevelState } from "@/scenes/GameScene";
+import { Music } from "@/components/Music";
 
 export class Dragon extends Phaser.GameObjects.Container {
   public declare scene: BaseScene;
   public dragon: Phaser.GameObjects.Sprite;
   public fire: Phaser.GameObjects.Sprite;
   public IsApproaching: boolean = false;
-  private endPosy = 110;
+  private endPosy = -40;
   private scaleDragon = 1.2;
   private idleTimer: TimerEvent;
   private approachingTimeLine: Timeline;
   public footstep: Phaser.Sound.BaseSound;
-  constructor(
-    scene: BaseScene,
-    x: number,
-    y: number,
-    scale: number,
-  ) {
+  constructor(scene: BaseScene, x: number, y: number, scale: number) {
     super(scene, x, y);
     scene.add.existing(this);
-    this.footstep = this.scene.sound.add('dragon_step');
+    this.footstep = this.scene.sound.add("dragon_step");
     var maxTime = 10;
     var step = 0.15;
     var t = 0;
 
     this.dragon = scene.add
-      .sprite(0, 140, "dragon_walk")
+      .sprite(0, 0, "dragon_walk")
       .setScale(scale)
       .setOrigin(0.5, 0.5);
     this.add(this.dragon);
@@ -39,7 +33,7 @@ export class Dragon extends Phaser.GameObjects.Container {
       callback: () => {
         this.dragon.toggleFlipX();
         this.footstep.play();
-        this.dragon.y = Phaser.Math.Linear(200, this.endPosy, t);
+        this.dragon.y = Phaser.Math.Linear(0, this.endPosy, t);
         this.dragon.scale = Phaser.Math.Linear(0.3, this.scaleDragon, t);
         t += step;
       },
@@ -57,7 +51,8 @@ export class Dragon extends Phaser.GameObjects.Container {
             .setOrigin(0.5, 0.5);
           this.add(this.dragon);
         },
-      }, {
+      },
+      {
         at: 1000,
         run: () => {
           this.dragon.destroy();
@@ -67,8 +62,8 @@ export class Dragon extends Phaser.GameObjects.Container {
             .setOrigin(0.5, 0.5);
           this.add(this.dragon);
         },
-
-      }, {
+      },
+      {
         at: 2000,
         run: () => {
           this.dragon.destroy();
@@ -94,14 +89,13 @@ export class Dragon extends Phaser.GameObjects.Container {
           this.fire.play("fire");
           this.emit("burnPrisoners");
         },
-
-			}, {
-				at: 4000,
-				run: () => {
-					this.fire.destroy();
-					this.dragon.destroy();
-					if(LevelState.completed)
-					{
+      },
+      {
+        at: 4000,
+        run: () => {
+          this.fire.destroy();
+          this.dragon.destroy();
+          if (LevelState.completed) {
             this.dragon = this.scene.add
               .sprite(0, this.endPosy, "dragon_anger")
               .setScale(this.scaleDragon)
@@ -115,7 +109,7 @@ export class Dragon extends Phaser.GameObjects.Container {
 
           this.add(this.dragon);
         },
-      }
+      },
     ]);
   }
 
