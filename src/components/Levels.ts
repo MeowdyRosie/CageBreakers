@@ -16,15 +16,14 @@ export class Level {
   }
 
   getPatterns() {
-    // every 5 levels we get one pattern more, capped at 3
-    let patternMod = 5;
+    // every 3 levels we get one pattern more, capped at 3
+    let patternMod = 3;
     let cap = 3;
     if (this.difficulty == "medium") {
       cap = 4;
     }
     if (this.difficulty == "hard") {
       cap = 5;
-      patternMod = 4;
     }
     return Math.min(cap, Math.ceil(this.level / patternMod));
   }

@@ -128,6 +128,13 @@ export class GameScene extends BaseScene {
 
   endRound() {
     this.currentLevel++;
+    // scale to higher difficulty
+    if (this.level.difficulty != "medium" && this.currentLevel >= 10) {
+      this.level.difficulty = "medium";
+    }
+    if (this.level.difficulty != "hard" && this.currentLevel >= 20) {
+      this.level.difficulty = "hard";
+    }
     this.circle.destroyPath();
     const timeToFlee = 3000;
     this.prisoners.forEach((kobold) => {
