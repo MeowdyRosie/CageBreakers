@@ -77,7 +77,7 @@ export class GameScene extends BaseScene {
     for (let i = 0; i < backRow; i++) {
       const x = ((1 + i) * this.W) / assumeFrontRow;
       this.prisoners.push(
-        new Prisoners(this, x, 450, 0.2, this.level.getPatterns())
+        new Prisoners(this, x, 350, 0.1, this.level.getPatterns())
       );
     }
 
@@ -85,7 +85,7 @@ export class GameScene extends BaseScene {
       const offset = this.W / assumeFrontRow / 2;
       const x = (i * this.W) / assumeFrontRow + offset;
       this.prisoners.push(
-        new Prisoners(this, x, 500, 0.3, this.level.getPatterns())
+        new Prisoners(this, x, 400, 0.2, this.level.getPatterns())
       );
     }
 

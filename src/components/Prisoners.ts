@@ -107,11 +107,11 @@ export class Prisoners extends Phaser.GameObjects.Container {
     this.prisoners.playAfterDelay("idle", Math.random() * 500);
 
     this.runeprompt = this.scene.add
-      .sprite(0, 0, "runeprompt")
+      .sprite(0, -50, "runeprompt")
       .setScale(1.25, 1.25);
     this.add(this.runeprompt);
 
-    this.circle = new MagicCircle(scene, 0, 0, 50, scale * 0.5, false);
+    this.circle = new MagicCircle(scene, 0, -50, 50, scale * 0.5, false);
     this.add(this.circle);
     this.setRandomSpellPattern();
   }
