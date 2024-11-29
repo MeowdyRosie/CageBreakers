@@ -1,13 +1,13 @@
-import { BaseScene } from "@/scenes/BaseScene";
+import {BaseScene} from "@/scenes/BaseScene";
 import MagicCircle from "@/components/MagicCircle";
-import { Prisoners } from "@/components/Prisoners";
+import {Prisoners} from "@/components/Prisoners";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
-import { Dragon } from "@/components/Dragon";
-import { Difficulty, Level } from "@/components/Levels";
-import { UI } from "@/components/UI";
-import { Timer } from "@/components/Timer";
-import { Music } from "@/components/Music";
+import {Dragon} from "@/components/Dragon";
+import {Difficulty, Level} from "@/components/Levels";
+import {UI} from "@/components/UI";
+import {Timer} from "@/components/Timer";
+import {Music} from "@/components/Music";
 
 type GameSceneData = {
   level: number;
@@ -31,10 +31,10 @@ export class GameScene extends BaseScene {
   public lose: Phaser.Sound.BaseSound;
 
   constructor() {
-    super({ key: "GameScene" });
+    super({key: "GameScene"});
   }
 
-  create({ level, difficulty }: GameSceneData): void {
+  create({level, difficulty}: GameSceneData): void {
     LevelState.completed = false;
     this.prisoners = [];
     this.fade(false, 200, 0x000000);
@@ -83,7 +83,7 @@ export class GameScene extends BaseScene {
     });
 
     if (!this.musicFirst) {
-      this.musicFirst = new Music(this, "m_first", { volume: 0.4 });
+      this.musicFirst = new Music(this, "m_first", {volume: 0.4});
     }
     this.musicFirst.play();
 
@@ -100,7 +100,8 @@ export class GameScene extends BaseScene {
       onUpdate: (tween) => {
         this.timerObject.redraw(tween.getValue());
       },
-      onComplete: () => {},
+      onComplete: () => {
+      },
     });
   }
 
@@ -157,6 +158,9 @@ export class GameScene extends BaseScene {
         this.dragon.angry();
         this.musicFirst.stop();
         this.win.play();
+        const goodjob = ["goodjob_1", "goodjob_2", "goodjob_3", "goodjob_4"];
+        const randomjob = Math.floor(Math.random() * goodjob.length);
+        this.gameOverText = this.add.image(this.CX, 1000, goodjob[randomjob]);
         var timer = this.time.addEvent({
           delay: 2000, // ms
           callback: () => {
@@ -188,7 +192,7 @@ export class GameScene extends BaseScene {
     this.time.addEvent({
       delay: timeToFlee,
       callback: () => {
-        const { difficulty, level } = this.level;
+        const {difficulty, level} = this.level;
         this.scene.restart({
           difficulty: "hard",
           level: level + 1,
@@ -197,7 +201,8 @@ export class GameScene extends BaseScene {
     });
   }
 
-  finishGame() {}
+  finishGame() {
+  }
 
   update(time: number, delta: number) {
     this.circle.update(time, delta);
