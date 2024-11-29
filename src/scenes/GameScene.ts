@@ -1,17 +1,18 @@
-import { BaseScene } from "@/scenes/BaseScene";
+import {BaseScene} from "@/scenes/BaseScene";
 import MagicCircle from "@/components/MagicCircle";
-import { Prisoners } from "@/components/Prisoners";
+import {Prisoners} from "@/components/Prisoners";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
-import { Dragon } from "@/components/Dragon";
-import { Difficulty, Level } from "@/components/Levels";
-import { UI } from "@/components/UI";
-import { Timer } from "@/components/Timer";
+import {Dragon} from "@/components/Dragon";
+import {Difficulty, Level} from "@/components/Levels";
+import {UI} from "@/components/UI";
+import {Timer} from "@/components/Timer";
 
 type GameSceneData = {
   level: number;
   difficulty: Difficulty;
 };
+
 export class GameScene extends BaseScene {
   private background: Phaser.GameObjects.Image;
   private prisoners: Prisoners[];
@@ -25,22 +26,27 @@ export class GameScene extends BaseScene {
   private level: Level;
 
   constructor() {
-    super({ key: "GameScene" });
+    super({key: "GameScene"});
   }
 
-  create({ level, difficulty }: GameSceneData): void {
+  create({level, difficulty}: GameSceneData): void {
     this.prisoners = [];
     this.fade(false, 200, 0x000000);
 
     this.background = this.add.image(this.CX, 0, "background");
 
-    this.dragon = new Dragon(this, this.CX, 0, 0.5);
+    this.dragon = new Dragon(this, this.CX, 200, 1);
     this.level = new Level(difficulty, level);
 
     // Dragon moving
     this.background.setOrigin(0.5, 0);
     this.background.setScale(0.5, 0.5);
     this.fitToScreen(this.background);
+    this.dragon.on("burnPrisoners", () => {
+      this.prisoners.forEach((prisoner) => {
+        prisoner.setFire();
+      })
+    })
 
     this.timer = this.time.addEvent({
       delay: this.level.getTime() - 5000, // ms
@@ -63,7 +69,8 @@ export class GameScene extends BaseScene {
       onUpdate: (tween) => {
         this.timerObject.redraw(tween.getValue());
       },
-      onComplete: () => {},
+      onComplete: () => {
+      },
     });
   }
 
@@ -109,7 +116,7 @@ export class GameScene extends BaseScene {
         }
       });
       if (this.prisoners.every((kobold) => kobold.patternsLeft == 0)) {
-        //this.endRound();
+        this.endRound();
       }
     });
 
@@ -128,7 +135,7 @@ export class GameScene extends BaseScene {
     this.time.addEvent({
       delay: timeToFlee,
       callback: () => {
-        const { difficulty, level } = this.level;
+        const {difficulty, level} = this.level;
         this.scene.restart({
           difficulty: "hard",
           level: level + 1,
@@ -137,7 +144,8 @@ export class GameScene extends BaseScene {
     });
   }
 
-  finishGame() {}
+  finishGame() {
+  }
 
   update(time: number, delta: number) {
     this.circle.update(time, delta);
