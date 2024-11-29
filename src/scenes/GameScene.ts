@@ -140,6 +140,8 @@ export class GameScene extends BaseScene {
   finishGame() {}
 
   update(time: number, delta: number) {
+    this.circle.update(time, delta);
+    //console.log(this.timer.getOverallRemainingSeconds());
   }
 
   gameOver() {
