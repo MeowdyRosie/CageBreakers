@@ -3,7 +3,7 @@
   "title": "Ash and Arcana",
   "description": "Your party members have been taken prison by spell trap when trying to claim the dragons hord for themselves. Rescue them before the dragon gets to you!",
   "itch": {
-    "upload": false,
+    "upload": true,
     "username": "arcticfqx",
     "game": "ash-and-arcana"
   },
