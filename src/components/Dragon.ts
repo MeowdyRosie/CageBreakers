@@ -11,7 +11,7 @@ export class Dragon extends Phaser.GameObjects.Container {
 	public IsApproaching: boolean = false;
 	public isCompleted: boolean = false;
 	private endPosy = 90;
-	private scaleDragon = 1.4;
+	private scaleDragon = 1.3;
 	private idleTimer: TimerEvent;
 	private approachingTimeLine: Timeline;
 
@@ -37,8 +37,8 @@ export class Dragon extends Phaser.GameObjects.Container {
 			delay: 1500, // ms
 			callback: () => {
 				this.dragon.toggleFlipX();
-				this.dragon.y  = Phaser.Math.Linear(140, this.endPosy, t);
-				this.dragon.scale = Phaser.Math.Linear(0.5, this.scaleDragon, t);
+				this.dragon.y  = Phaser.Math.Linear(200, this.endPosy, t);
+				this.dragon.scale = Phaser.Math.Linear(0.3, this.scaleDragon, t);
 				t += step;
 			},
 			//args: [],
@@ -77,10 +77,10 @@ export class Dragon extends Phaser.GameObjects.Container {
 						.setOrigin(0.5, 0.5);
 					this.add(this.dragon);
 					this.fire = scene.add
-						.sprite(0, this.endPosy+ 30, "dragon_firing")
+						.sprite(0, 475, "dragon_firing")
 						.setScale(this.scaleDragon)
 						.setOrigin(0.5, 0.5);
-					this.fire.setZ(10);
+					this.fire.setDepth(100000);
 					this.fire.anims.create({
 						key: "fire",
 						frames: scene.anims.generateFrameNames("dragon_firing", {
@@ -101,6 +101,7 @@ export class Dragon extends Phaser.GameObjects.Container {
 					this.dragon.destroy();
 					if(this.isCompleted)
 					{
+
 						this.dragon = this.scene.add
 							.sprite(0, this.endPosy, "dragon_anger")
 							.setScale(this.scaleDragon)

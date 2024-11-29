@@ -49,7 +49,7 @@ export class GameScene extends BaseScene {
     })
 
     this.timer = this.time.addEvent({
-      delay: this.level.getTime() - 5000, // ms
+      delay: this.level.getTime(), // ms
       callback: () => {
         this.dragon.stopIdle();
         this.dragon.approaching();
