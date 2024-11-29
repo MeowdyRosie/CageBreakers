@@ -9,6 +9,7 @@ export class Dragon extends Phaser.GameObjects.Container {
 	public dragon: Phaser.GameObjects.Sprite;
 	public IsApproaching: boolean = false;
 	public isCompleted: boolean = false;
+	private endScale = 1.2;
 	// Define the lerp parameters
 	private startX = 100;
 	private endX = 700;
@@ -29,16 +30,22 @@ export class Dragon extends Phaser.GameObjects.Container {
 		super(scene, x, y);
 		scene.add.existing(this);
 
+		var maxTime = 10;
+		var step = 0.15;
+		var t = 0;
 
 		this.dragon = scene.add
-			.sprite(0, 0, "dragon_walk")
+			.sprite(0, 340, "dragon_walk")
 			.setScale(scale)
 			.setOrigin(0.5, 0.5);
 		this.add(this.dragon);
 		this.idleTimer = this.scene.time.addEvent({
-			delay: 1000, // ms
+			delay: 1500, // ms
 			callback: () => {
-				//this.dragon.toggleFlipX();
+				this.dragon.toggleFlipX();
+				this.dragon.y  = Phaser.Math.Linear(340, 225, t);
+				this.dragon.scale = Phaser.Math.Linear(0.5, 1.3, t);
+				t += step;
 			},
 			//args: [],
 			loop: true,
@@ -49,8 +56,8 @@ export class Dragon extends Phaser.GameObjects.Container {
 				run: () => {
 					this.dragon.destroy();
 					this.dragon = this.scene.add
-						.sprite(0, 0, "dragon_sit")
-						.setScale(1)
+						.sprite(0, 225, "dragon_sit")
+						.setScale(1.2)
 						.setOrigin(0.5, 0.5);
 					this.add(this.dragon);
 				},
@@ -60,8 +67,8 @@ export class Dragon extends Phaser.GameObjects.Container {
 				run: () => {
 					this.dragon.destroy();
 					this.dragon = this.scene.add
-						.sprite(0, 0, "dragon_charge")
-						.setScale(1)
+						.sprite(0, 225, "dragon_charge")
+						.setScale(1.2)
 						.setOrigin(0.5, 0.5);
 					this.add(this.dragon);
 				},
@@ -71,8 +78,8 @@ export class Dragon extends Phaser.GameObjects.Container {
 				run: () => {
 					this.dragon.destroy();
 					this.dragon = this.scene.add
-						.sprite(0, 0, "dragon_fire")
-						.setScale(1)
+						.sprite(0, 225, "dragon_fire")
+						.setScale(1.2)
 						.setOrigin(0.5, 0.5);
 					this.add(this.dragon);
 				},
@@ -84,14 +91,14 @@ export class Dragon extends Phaser.GameObjects.Container {
 					if(this.isCompleted)
 					{
 						this.dragon = this.scene.add
-							.sprite(0, 0, "dragon_anger")
-							.setScale(1)
+							.sprite(0, 225, "dragon_anger")
+							.setScale(1.2)
 							.setOrigin(0.5, 0.5);
 					}
 					else{
 						this.dragon = this.scene.add
-							.sprite(0, 0, "dragon_smug")
-							.setScale(1)
+							.sprite(0, 225, "dragon_smug")
+							.setScale(1.2)
 							.setOrigin(0.5, 0.5);
 					}
 
@@ -108,27 +115,6 @@ export class Dragon extends Phaser.GameObjects.Container {
 			  }
 			}*/
 		]);
-	}
-
-	update(time: number, delta: number, duration: number) {
-		/*console.log("update");
-		if (this.lerpActive) {
-			this.elapsedTime += delta;
-
-			// Calculate progress (0 to 1)
-			const t = Math.min(this.elapsedTime / duration, 1);
-
-			this.dragon.scale = Phaser.Math.Linear(0.8, 1, t);
-			// Interpolate position using Phaser.Math.Linear
-			this.dragon.y  = Phaser.Math.Linear(0, 300, t);
-			console.log(this.dragon.y);
-
-			// Stop lerping when complete
-			if (t === 1) {
-				this.lerpActive = false;
-				console.log('Lerp complete!');
-			}
-		}*/
 	}
 
 	stopIdle() {
