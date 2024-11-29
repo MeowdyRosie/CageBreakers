@@ -30,8 +30,8 @@ export class Level {
   }
 
   getTime() {
-    // default time 2 mins, every level we cull 2s until 20s
-    let time = 20;
+    // default time 30s(?), every level we cull 2s until 20s
+    let time = 30;
     let timeMod = 1;
     let timeStep = 2;
     let cap = 20;
@@ -43,7 +43,7 @@ export class Level {
       timeStep = 1;
       cap = 10;
     }
-    return Math.max(cap, time / timeMod - this.level * timeStep) * 1000;
+    return Math.max(cap, Math.floor(time / timeMod) - this.level * timeStep) * 1000;
   }
 
   getCages() {
