@@ -89,6 +89,7 @@ export class Dragon extends Phaser.GameObjects.Container {
           this.add(this.fire);
           this.fire.play("fire");
           this.emit("burnPrisoners");
+          this.setDepth(2);
         },
       },
       {
@@ -109,6 +110,7 @@ export class Dragon extends Phaser.GameObjects.Container {
           }
 
           this.add(this.dragon);
+          this.setDepth(0);
         },
       },
     ]);

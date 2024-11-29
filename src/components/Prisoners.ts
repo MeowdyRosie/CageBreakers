@@ -44,6 +44,8 @@ export class Prisoners extends Phaser.GameObjects.Container {
     super(scene, x, y);
     scene.add.existing(this);
 
+    this.setDepth(1);
+
     this.creatures = ["kobold", "cat", "deer", "kobold_mage", "mouse", "wolf"];
     const randomCreature = Math.floor(Math.random() * this.creatures.length);
     this.cageBack = scene.add
@@ -170,7 +172,7 @@ export class Prisoners extends Phaser.GameObjects.Container {
     });
   }
 
-  setFire(){
+  setFire() {
     this.prisoners.play("burn");
   }
 }

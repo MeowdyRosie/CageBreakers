@@ -40,6 +40,7 @@ export class GameScene extends BaseScene {
     this.fade(false, 200, 0x000000);
 
     this.background = this.add.image(this.CX, 0, "background");
+    this.background.setDepth(-2);
 
     this.backgroundAnim = this.add
       .sprite(0, 0, "background_fire")
@@ -55,7 +56,7 @@ export class GameScene extends BaseScene {
       repeat: -1,
     });
 
-    this.backgroundAnim.play('fire');
+    this.backgroundAnim.play("fire");
 
     this.dragon = new Dragon(this, this.CX, 340, 0.3);
     this.level = new Level(difficulty, level);
@@ -134,6 +135,7 @@ export class GameScene extends BaseScene {
     });
 
     this.circle = new MagicCircle(this, this.CX, 1000, 200, 1, true);
+    this.circle.setDepth(1);
     this.circle.on("spell", (edges: string[]) => {
       this.prisoners.forEach((kobold) => {
         if (kobold.patternsLeft > 0 && kobold.trySpell(edges)) {

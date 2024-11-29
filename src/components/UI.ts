@@ -11,6 +11,7 @@ export class UI extends Phaser.GameObjects.Container {
     super(scene, 0, 0);
     scene.add.existing(this);
     this.scene = scene;
+    this.setDepth(3);
 
     const panelHeight = 200;
 
@@ -51,7 +52,7 @@ export class UI extends Phaser.GameObjects.Container {
           y: this.scene.H + 100,
           duration: 500,
         });
-		this.emit("startRound");
+        this.emit("startRound");
       },
     });
   }
