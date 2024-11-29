@@ -66,7 +66,10 @@ const spritesheets: SpriteSheet[] = [
 const audios: Audio[] = [
   music("title", "m_main_menu"),
   music("first", "m_first"),
+  sound("dragon_step", "dragon_step"),
   sound("tree/rustle", "t_rustle", 0.5),
+  sound("win", "win", 0.5),
+  sound("lose", "lose", 0.5),
 ];
 
 /* Fonts */

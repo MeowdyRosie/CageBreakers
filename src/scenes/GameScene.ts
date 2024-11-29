@@ -24,12 +24,14 @@ export class GameScene extends BaseScene {
   private timerObject: Timer;
   private ui: UI;
   private level: Level;
-
+  public win: Phaser.Sound.BaseSound;
+  public lose: Phaser.Sound.BaseSound;
   constructor() {
     super({key: "GameScene"});
   }
 
   create({level, difficulty}: GameSceneData): void {
+    LevelState.completed = false;
     this.prisoners = [];
     this.fade(false, 200, 0x000000);
 
@@ -37,6 +39,8 @@ export class GameScene extends BaseScene {
     this.dragon = new Dragon(this, this.CX, 140, 1);
     this.level = new Level(difficulty, level);
 
+    this.win = this.sound.add('win');
+    this.lose = this.sound.add('lose');
     // Dragon moving
     this.background.setOrigin(0.5, 0);
     this.background.setScale(0.5, 0.5);
@@ -108,7 +112,6 @@ export class GameScene extends BaseScene {
         if (kobold.patternsLeft > 0 && kobold.trySpell(edges)) {
           kobold.patternsLeft--;
           if (kobold.patternsLeft == 0) {
-            LevelState.completed = true;
             kobold.setFree();
             kobold.flee(2000);
             this.flash(500);
@@ -118,7 +121,7 @@ export class GameScene extends BaseScene {
         }
       });
       if (this.prisoners.every((kobold) => kobold.patternsLeft == 0)) {
-        this.endRound();
+        LevelState.completed = true;
       }
     });
 
@@ -165,10 +168,20 @@ export class GameScene extends BaseScene {
     if (!LevelState.completed) {
       this.circle.destroy();
       this.gameOverText = this.add.image(this.CX, 1000, "gameover");
+      this.lose.play();
       var timer = this.time.addEvent({
         delay: 5000, // ms
         callback: () =>{
           this.scene.start("TitleScene");
+        },
+      });
+    }
+    else{
+      this.win.play();
+      var timer = this.time.addEvent({
+        delay: 5000, // ms
+        callback: () =>{
+          this.endRound();
         },
       });
     }

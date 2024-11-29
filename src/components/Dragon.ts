@@ -3,6 +3,7 @@ import MagicCircle from "./MagicCircle";
 import TimerEvent = Phaser.Time.TimerEvent;
 import Timeline = Phaser.Time.Timeline;
 import {LevelState} from "@/scenes/GameScene";
+import {Music} from "@/components/Music";
 
 
 export class Dragon extends Phaser.GameObjects.Container {
@@ -14,6 +15,7 @@ export class Dragon extends Phaser.GameObjects.Container {
   private scaleDragon = 1.2;
   private idleTimer: TimerEvent;
   private approachingTimeLine: Timeline;
+  public footstep: Phaser.Sound.BaseSound;
   constructor(
     scene: BaseScene,
     x: number,
@@ -22,7 +24,7 @@ export class Dragon extends Phaser.GameObjects.Container {
   ) {
     super(scene, x, y);
     scene.add.existing(this);
-
+    this.footstep = this.scene.sound.add('dragon_step');
     var maxTime = 10;
     var step = 0.15;
     var t = 0;
@@ -36,6 +38,7 @@ export class Dragon extends Phaser.GameObjects.Container {
       delay: 1500, // ms
       callback: () => {
         this.dragon.toggleFlipX();
+        this.footstep.play();
         this.dragon.y = Phaser.Math.Linear(200, this.endPosy, t);
         this.dragon.scale = Phaser.Math.Linear(0.3, this.scaleDragon, t);
         t += step;
