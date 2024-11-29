@@ -52,7 +52,7 @@ export class GameScene extends BaseScene {
     });
     this.setupGame();
 
-    this.timerObject = new Timer(this, 200, 200, 200, 0xfa9425);
+    this.timerObject = new Timer(this, -200, 200, 200, 0xfa9425);
     this.tweens.addCounter({
       from: 1,
       to: 0,
