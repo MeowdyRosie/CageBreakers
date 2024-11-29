@@ -104,6 +104,18 @@ export class Prisoners extends Phaser.GameObjects.Container {
       repeat: -1,
     });
 
+    this.prisoners.anims.create({
+      key: "burn",
+      frames: this.scene.anims.generateFrameNames(
+        this.creatures[randomCreature],
+        {
+          frames: [4, 5],
+        }
+      ),
+      frameRate: 4,
+      repeat: -1,
+    });
+
     this.prisoners.playAfterDelay("idle", Math.random() * 500);
 
     this.runeprompt = this.scene.add
@@ -156,5 +168,9 @@ export class Prisoners extends Phaser.GameObjects.Container {
       x: 1000,
       duration: duration,
     });
+  }
+
+  setFire(){
+    this.prisoners.play("burn");
   }
 }

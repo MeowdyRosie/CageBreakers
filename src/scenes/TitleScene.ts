@@ -63,7 +63,8 @@ export class TitleScene extends BaseScene {
       .setY(this.CY - 100);
     this.bg2 = this.add
       .image(this.CX, this.CY, "bg_layer2")
-      .setX(this.CX + 200);
+      .setX(this.CX + 200)
+      .setY(this.CY + 100);
     this.bg3 = this.add
       .image(this.CX, this.CY, "bg_layer3")
       .setX(this.CX - 200);
@@ -80,8 +81,8 @@ export class TitleScene extends BaseScene {
       .setY(this.CY + 250)
       .setX(this.CX - 250);
 
-    this.title = this.add.image(this.CX, this.CY, "mainmenu_1");
-    this.subtitle = this.add.image(this.CX, this.CY, "mainmenu_2");
+    this.title = this.add.image(this.CX, this.H - 180, "mainmenu_1");
+    this.subtitle = this.add.image(this.CX, this.H - 180, "mainmenu_2");
 
     this.title.setOrigin(0.5);
     this.title.setAlpha(0);
@@ -117,9 +118,9 @@ export class TitleScene extends BaseScene {
     this.credits.setAlpha(0);
 
     let credits1 = this.addText({
-      x: this.W / 2,
+      x: 0,
       y: 0,
-      size: 20,
+      size: 15,
       color: "#000000",
       text: creditsLeft,
     });
@@ -129,9 +130,9 @@ export class TitleScene extends BaseScene {
     this.credits.add(credits1);
 
     let credits2 = this.addText({
-      x: this.W - 120,
+      x: 140,
       y: 0,
-      size: 20,
+      size: 15,
       color: "#000000",
       text: creditsRight,
     });
@@ -194,9 +195,10 @@ export class TitleScene extends BaseScene {
     this.tweens.add({
       targets: this.bg2,
       x: this.CX,
+      y: this.CY,
       ease: "Cubic",
       duration: 2000,
-      delay: 300,
+      delay: 200,
     });
     this.tweens.add({
       targets: this.bg3,
