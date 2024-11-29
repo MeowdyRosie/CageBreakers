@@ -150,7 +150,18 @@ export class GameScene extends BaseScene {
         }
       });
       if (this.prisoners.every((kobold) => kobold.patternsLeft == 0)) {
+        this.circle.destroy();
         LevelState.completed = true;
+        this.dragon.stopIdle();
+        this.dragon.angry();
+        this.musicFirst.stop();
+        this.win.play();
+        var timer = this.time.addEvent({
+          delay: 2000, // ms
+          callback: () => {
+            this.endRound();
+          },
+        });
       }
     });
 
@@ -192,7 +203,6 @@ export class GameScene extends BaseScene {
   }
 
   gameOver() {
-    console.log("not completed", this.background);
     if (!LevelState.completed) {
       this.circle.destroy();
       this.gameOverText = this.add.image(this.CX, 1000, "gameover");
@@ -206,7 +216,7 @@ export class GameScene extends BaseScene {
     } else {
       this.win.play();
       var timer = this.time.addEvent({
-        delay: 5000, // ms
+        delay: 4000, // ms
         callback: () => {
           this.endRound();
         },

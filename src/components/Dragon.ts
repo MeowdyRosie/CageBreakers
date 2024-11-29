@@ -12,6 +12,8 @@ export class Dragon extends Phaser.GameObjects.Container {
   public IsApproaching: boolean = false;
   private endPosy = -40;
   private scaleDragon = 1.2;
+  private currentPosy :number;
+  private currentScale : number;
   private idleTimer: TimerEvent;
   private approachingTimeLine: Timeline;
   public footstep: Phaser.Sound.BaseSound;
@@ -33,9 +35,10 @@ export class Dragon extends Phaser.GameObjects.Container {
       callback: () => {
         this.dragon.toggleFlipX();
         this.footstep.play();
-        this.dragon.y = Phaser.Math.Linear(0, this.endPosy, t);
-        this.dragon.scale = Phaser.Math.Linear(0.3, this.scaleDragon, t);
-        console.log(`${t} - ${this.dragon.y} - ${this.dragon.scale} `);
+        this.currentPosy = Phaser.Math.Linear(0, this.endPosy, t);
+        this.dragon.y = this.currentPosy;
+        this.currentScale =  Phaser.Math.Linear(0.3, this.scaleDragon, t);
+        this.dragon.scale = this.currentScale;
         t += step;
       },
       //args: [],
@@ -118,6 +121,14 @@ export class Dragon extends Phaser.GameObjects.Container {
 
   stopIdle() {
     this.idleTimer.destroy();
+  }
+  angry(){
+    this.dragon.destroy();
+    this.dragon = this.scene.add
+      .sprite(0, this.currentPosy, "dragon_anger")
+      .setScale(this.currentScale)
+      .setOrigin(0.5, 0.5);
+    this.add(this.dragon);
   }
 
   approaching() {

@@ -62,6 +62,8 @@ const spritesheets: SpriteSheet[] = [
   spritesheet("characters/cage_back", "cage_back", 300, 425),
   spritesheet("characters/DragonFire", "dragon_firing", 512, 1024),
   spritesheet("backgrounds/backgroundFireAnim", "background_fire", 640, 1280),
+  spritesheet("characters/dragon_anger_spritesheet", "dragon_anger_spritesheet", 768, 256),
+  spritesheet("characters/dragon_smug_spritesheet", "dragon_smug_spritesheet", 768, 256),
 
 ];
 
