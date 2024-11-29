@@ -43,7 +43,7 @@ export class Prisoners extends Phaser.GameObjects.Container {
     super(scene, x, y);
     scene.add.existing(this);
 
-    this.creatures = ["kobold", "cat,", "deer", "kobold_mage", "mouse", "wolf"];
+    this.creatures = ["kobold", "cat", "deer", "kobold_mage", "mouse", "wolf"];
     const randomCreature = Math.floor(Math.random() * this.creatures.length);
     this.cageBack = scene.add
       .sprite(0, 0, "cage_back")
@@ -93,9 +93,12 @@ export class Prisoners extends Phaser.GameObjects.Container {
 
     this.prisoners.anims.create({
       key: "run",
-      frames: this.scene.anims.generateFrameNames(this.creatures[randomCreature], {
-        frames: [2, 3],
-      }),
+      frames: this.scene.anims.generateFrameNames(
+        this.creatures[randomCreature],
+        {
+          frames: [2, 3],
+        }
+      ),
       frameRate: 4,
       repeat: -1,
     });

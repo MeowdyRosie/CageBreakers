@@ -6,6 +6,7 @@ import Timeline = Phaser.Time.Timeline;
 import { Dragon } from "@/components/Dragon";
 import { Difficulty, Level } from "@/components/Levels";
 import { UI } from "@/components/UI";
+import { Timer } from "@/components/Timer";
 
 type GameSceneData = {
   level: number;
@@ -18,6 +19,7 @@ export class GameScene extends BaseScene {
   private circle: MagicCircle;
   private currentLevel: number = 0;
   private timer: TimerEvent;
+  private timerObject: Timer;
   public levelCompleted: boolean = false;
   private ui: UI;
   private level: Level;
@@ -49,22 +51,38 @@ export class GameScene extends BaseScene {
       //args: [],
     });
     this.setupGame();
+
+    this.timerObject = new Timer(this, 200, 200, 200, 0xfa9425);
+    this.tweens.addCounter({
+      from: 1,
+      to: 0,
+      duration: this.level.getTime(),
+      onStart: () => {
+        this.timerObject.setVisible(true);
+      },
+      onUpdate: (tween) => {
+        this.timerObject.redraw(tween.getValue());
+      },
+      onComplete: () => {},
+    });
   }
 
   setupGame() {
     this.prisoners = [];
+    console.log("asd", this.level.getCages());
     const frontRow = Math.ceil(this.level.getCages() / 2);
     const backRow = Math.floor(this.level.getCages() / 2);
 
     for (let i = 0; i < backRow; i++) {
-      const x = ((1 + i) * this.W) / frontRow;
+      const x = frontRow > 1 ? ((1 + i) * this.W) / frontRow : this.CX + 100;
       this.prisoners.push(
         new Prisoners(this, x, 450, 0.2, this.level.getPatterns())
       );
     }
 
     for (let i = 0; i < frontRow; i++) {
-      const offset = this.W / frontRow / 2;
+      const offset =
+        frontRow == 1 && backRow == 1 ? this.CX - 100 : this.W / frontRow / 2;
       const x = (i * this.W) / frontRow + offset;
       this.prisoners.push(
         new Prisoners(this, x, 500, 0.3, this.level.getPatterns())
@@ -109,7 +127,10 @@ export class GameScene extends BaseScene {
       delay: timeToFlee,
       callback: () => {
         const { difficulty, level } = this.level;
-        this.scene.restart({ difficulty, level: level + 1 } as GameSceneData);
+        this.scene.restart({
+          difficulty: "hard",
+          level: level + 1,
+        } as GameSceneData);
       },
     });
   }

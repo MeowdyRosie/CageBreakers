@@ -8,53 +8,54 @@ export class Level {
   public difficulty: Difficulty;
 
   constructor(difficulty: Difficulty = "easy", level: number = 1) {
-    this.patterns = this.getPatterns(level, difficulty);
-    this.time = this.getTime(level, difficulty);
-    this.cages = this.getCages(level, difficulty);
+    this.patterns = this.getPatterns();
+    this.time = this.getTime();
+    this.cages = this.getCages();
     this.level = level;
     this.difficulty = difficulty;
   }
 
-  getPatterns(level: number = 1, difficulty: Difficulty = "easy") {
+  getPatterns() {
     // every 5 levels we get one pattern more, capped at 3
     let patternMod = 5;
     let cap = 3;
-    if (difficulty == "medium") {
+    if (this.difficulty == "medium") {
       cap = 4;
     }
-    if (difficulty == "hard") {
+    if (this.difficulty == "hard") {
       cap = 5;
       patternMod = 4;
     }
-    return Math.min(cap, Math.ceil(level / patternMod));
+    return Math.min(cap, Math.ceil(this.level / patternMod));
   }
 
-  getTime(level: number = 1, difficulty: Difficulty = "easy") {
+  getTime() {
     // default time 2 mins, every level we cull 2s until 20s
     let time = 120;
     let timeMod = 1;
     let timeStep = 2;
     let cap = 20;
-    if (difficulty == "medium") {
+    if (this.difficulty == "medium") {
       timeMod = 2;
     }
-    if (difficulty == "hard") {
+    if (this.difficulty == "hard") {
       timeMod = 3;
       timeStep = 1;
       cap = 10;
     }
-    return Math.max(cap, time / timeMod - level * timeStep) * 1000;
+    return Math.max(cap, time / timeMod - this.level * timeStep) * 1000;
   }
 
-  getCages(level: number = 1, difficulty: Difficulty = "easy") {
-    let cageMod = 7;
+  getCages() {
+    let cageMod = 2;
     let cap = 3;
-    if (difficulty == "medium") {
+    if (this.difficulty == "medium") {
       cap = 5;
     }
-    if (difficulty == "hard") {
+    if (this.difficulty == "hard") {
       cap = 7;
     }
-    return Math.min(cap, level / cageMod);
+
+    return Math.min(cap, Math.ceil(this.level / cageMod));
   }
 }
