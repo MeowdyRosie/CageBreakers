@@ -12,8 +12,8 @@ export class Dragon extends Phaser.GameObjects.Container {
   public IsApproaching: boolean = false;
   private endPosy = -40;
   private scaleDragon = 1.2;
-  private currentPosy :number;
-  private currentScale : number;
+  private currentPosy: number;
+  private currentScale: number;
   private idleTimer: TimerEvent;
   private approachingTimeLine: Timeline;
   public footstep: Phaser.Sound.BaseSound;
@@ -38,7 +38,7 @@ export class Dragon extends Phaser.GameObjects.Container {
         this.scene.shake(100, 1, 0);
         this.currentPosy = Phaser.Math.Linear(0, this.endPosy, t);
         this.dragon.y = this.currentPosy;
-        this.currentScale =  Phaser.Math.Linear(0.3, this.scaleDragon, t);
+        this.currentScale = Phaser.Math.Linear(0.3, this.scaleDragon, t);
         this.dragon.scale = this.currentScale;
         t += step;
       },
@@ -123,12 +123,24 @@ export class Dragon extends Phaser.GameObjects.Container {
   stopIdle() {
     this.idleTimer.destroy();
   }
-  angry(){
+  angry() {
     this.dragon.destroy();
-    this.dragon = this.scene.add
-      .sprite(0, this.currentPosy, "dragon_anger")
-      .setScale(this.currentScale * 2.66666667)
-      .setOrigin(0.5, 0.5);
+    this.dragon = this.scene.add.sprite(
+      0,
+      this.currentPosy,
+      "dragon_anger_spritesheet"
+    );
+
+    this.dragon.anims.create({
+      frameRate: 8,
+      frames: this.scene.anims.generateFrameNames("dragon_anger_spritesheet", {
+        frames: [0, 1],
+      }),
+      repeat: -1,
+      key: "angy",
+    });
+    this.dragon.play("angy");
+    this.dragon.setScale(this.currentScale * 2.66666667).setOrigin(0.5, 0.5);
     this.add(this.dragon);
   }
 
