@@ -35,6 +35,7 @@ export class Dragon extends Phaser.GameObjects.Container {
       callback: () => {
         this.dragon.toggleFlipX();
         this.footstep.play();
+        this.scene.shake(100, 1, 0);
         this.currentPosy = Phaser.Math.Linear(0, this.endPosy, t);
         this.dragon.y = this.currentPosy;
         this.currentScale =  Phaser.Math.Linear(0.3, this.scaleDragon, t);
@@ -126,7 +127,7 @@ export class Dragon extends Phaser.GameObjects.Container {
     this.dragon.destroy();
     this.dragon = this.scene.add
       .sprite(0, this.currentPosy, "dragon_anger")
-      .setScale(this.currentScale)
+      .setScale(this.currentScale * 2.66666667)
       .setOrigin(0.5, 0.5);
     this.add(this.dragon);
   }

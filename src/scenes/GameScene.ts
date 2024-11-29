@@ -151,6 +151,7 @@ export class GameScene extends BaseScene {
       });
       if (this.prisoners.every((kobold) => kobold.patternsLeft == 0)) {
         this.circle.destroy();
+        this.timer.destroy();
         LevelState.completed = true;
         this.dragon.stopIdle();
         this.dragon.angry();
