@@ -44,6 +44,7 @@ const spritesheets: SpriteSheet[] = [
   spritesheet("characters/wolf", "wolf", 499, 758),
   spritesheet("characters/cage_front", "cage_front", 300, 425),
   spritesheet("characters/cage_back", "cage_back", 300, 425),
+  spritesheet("characters/DragonFire", "fire", 512, 512)
 ];
 
 /* Audios */
