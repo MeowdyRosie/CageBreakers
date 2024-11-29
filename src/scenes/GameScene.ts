@@ -15,13 +15,13 @@ type GameSceneData = {
 
 export class GameScene extends BaseScene {
   private background: Phaser.GameObjects.Image;
+  private gameOverText: Phaser.GameObjects.Image;
   private prisoners: Prisoners[];
   private dragon: Dragon;
   private circle: MagicCircle;
   private currentLevel: number = 0;
   private timer: TimerEvent;
   private timerObject: Timer;
-  public levelCompleted: boolean = false;
   private ui: UI;
   private level: Level;
 
@@ -48,7 +48,7 @@ export class GameScene extends BaseScene {
     })
 
     this.timer = this.time.addEvent({
-      delay: this.level.getTime() - 5000, // ms
+      delay: this.level.getTime(), // ms
       callback: () => {
         this.dragon.stopIdle();
         this.dragon.approaching();
@@ -96,8 +96,10 @@ export class GameScene extends BaseScene {
     }
 
     this.timer = this.time.addEvent({
-      delay: this.level.getTime(), // ms
-      callback: this.gameOver,
+      delay: this.level.getTime() + 2500, // ms
+      callback: () =>{
+        this.gameOver();
+      },
     });
 
     this.circle = new MagicCircle(this, this.CX, 1000, 200, 1, true);
@@ -106,6 +108,7 @@ export class GameScene extends BaseScene {
         if (kobold.patternsLeft > 0 && kobold.trySpell(edges)) {
           kobold.patternsLeft--;
           if (kobold.patternsLeft == 0) {
+            LevelState.completed = true;
             kobold.setFree();
             kobold.flee(2000);
             this.flash(500);
@@ -125,6 +128,13 @@ export class GameScene extends BaseScene {
 
   endRound() {
     this.currentLevel++;
+    // scale to higher difficulty
+    if (this.level.difficulty != "medium" && this.currentLevel >= 10) {
+      this.level.difficulty = "medium";
+    }
+    if (this.level.difficulty != "hard" && this.currentLevel >= 20) {
+      this.level.difficulty = "hard";
+    }
     this.circle.destroyPath();
     const timeToFlee = 3000;
     this.prisoners.forEach((kobold) => {
@@ -148,11 +158,20 @@ export class GameScene extends BaseScene {
 
   update(time: number, delta: number) {
     this.circle.update(time, delta);
-    //console.log(this.timer.getOverallRemainingSeconds());
   }
 
   gameOver() {
-    console.log("Game Over");
+    console.log("not completed", this.background);
+    if (!LevelState.completed) {
+      this.circle.destroy();
+      this.gameOverText = this.add.image(this.CX, 1000, "gameover");
+      var timer = this.time.addEvent({
+        delay: 5000, // ms
+        callback: () =>{
+          this.scene.start("TitleScene");
+        },
+      });
+    }
   }
 
   initTouchControls() {
@@ -164,4 +183,8 @@ export class GameScene extends BaseScene {
     let touchId: number = -1;
     let touchButton: number = -1;
   }
+}
+
+export const LevelState ={
+  completed: false
 }

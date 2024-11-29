@@ -35,6 +35,7 @@ const images: Image[] = [
   image("ui/no_music", "no_music"),
   image("ui/sound", "sound"),
   image("ui/no_sound", "no_sound"),
+  image("ui/gameover", "gameover"),
 
   // Titlescreen
   image("titlescreen/background_base", "bg_base"),
@@ -58,7 +59,7 @@ const spritesheets: SpriteSheet[] = [
   spritesheet("characters/wolf", "wolf", 499, 758),
   spritesheet("characters/cage_front", "cage_front", 300, 425),
   spritesheet("characters/cage_back", "cage_back", 300, 425),
-  spritesheet("characters/DragonFire", "dragon_firing", 512, 512),
+  spritesheet("characters/DragonFire", "dragon_firing", 512, 1024)
 ];
 
 /* Audios */
