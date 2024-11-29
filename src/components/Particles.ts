@@ -11,7 +11,7 @@ enum ParticleType {
   FireExplosion = "runetablet_node_active",
 }
 
-class Particle extends Phaser.GameObjects.Sprite {
+class Particle extends Phaser.GameObjects.Image {
   private myType: ParticleType;
   private pos: Phaser.Math.Vector2;
   private vel: Phaser.Math.Vector2;
@@ -78,7 +78,7 @@ class Particle extends Phaser.GameObjects.Sprite {
     this.setAngle(360 * Math.random());
     this.setData("scale", 20 * (1 - 0.5 * Math.random()));
     this.setScale(this.getData("scale"));
-    this.setFrame(Math.floor(4 * Math.random()));
+    //this.setFrame(Math.floor(4 * Math.random()));
 
     this.vel.setToPolar(
       -0.0 * Math.PI + 0.2 * Math.PI * Math.random(),
@@ -107,7 +107,7 @@ class Particle extends Phaser.GameObjects.Sprite {
     this.init(x, y, ParticleType.Explosion);
 
     this.setScale((flip ? 1 : -1) * scale, scale);
-    this.setFrame(0);
+    //this.setFrame(0);
     this.setOrigin(0.5);
 
     this.lifeTime = duration * (0.8 + 0.2 * Math.random());
@@ -123,7 +123,7 @@ class Particle extends Phaser.GameObjects.Sprite {
     this.init(x, y, ParticleType.GreenMagic);
 
     this.setScale((flip ? 1 : -1) * scale, scale);
-    this.setFrame(0);
+    //this.setFrame(0);
     this.setOrigin(0.5);
 
     this.lifeTime = duration * (0.8 + 0.2 * Math.random());
@@ -139,7 +139,7 @@ class Particle extends Phaser.GameObjects.Sprite {
     this.init(x, y, ParticleType.BlueSparkle);
 
     this.setScale((flip ? 1 : -1) * scale, scale);
-    this.setFrame(0);
+    //this.setFrame(0);
     this.setOrigin(0.5);
 
     this.lifeTime = duration * (0.8 + 0.2 * Math.random());
@@ -155,7 +155,7 @@ class Particle extends Phaser.GameObjects.Sprite {
     this.init(x, y, ParticleType.DustExplosion);
 
     this.setScale((flip ? 1 : -1) * scale, scale);
-    this.setFrame(0);
+    //this.setFrame(0);
     this.setOrigin(0.5);
 
     this.lifeTime = duration * (0.8 + 0.2 * Math.random());
@@ -171,7 +171,7 @@ class Particle extends Phaser.GameObjects.Sprite {
     this.init(x, y, ParticleType.FireExplosion);
 
     this.setScale((flip ? 1 : -1) * scale, scale);
-    this.setFrame(0);
+    //this.setFrame(0);
     this.setOrigin(0.5);
 
     this.lifeTime = duration * (0.8 + 0.2 * Math.random());
@@ -212,31 +212,31 @@ class Particle extends Phaser.GameObjects.Sprite {
     if (this.myType == ParticleType.Explosion) {
       let frame = Math.floor(17 * (this.life / this.lifeTime));
       // let frame = Math.floor(17 * Math.pow(this.life / this.lifeTime, 0.65));
-      this.setFrame(frame);
+      //this.setFrame(frame);
     }
 
     if (this.myType == ParticleType.GreenMagic) {
       let frame = Math.floor(15 * (this.life / this.lifeTime));
       // let frame = Math.floor(15 * Math.pow(this.life / this.lifeTime, 0.65));
-      this.setFrame(frame);
+      //this.setFrame(frame);
     }
 
     if (this.myType == ParticleType.BlueSparkle) {
       let frame = Math.floor(15 * (this.life / this.lifeTime));
       // let frame = Math.floor(15 * Math.pow(this.life / this.lifeTime, 0.65));
-      this.setFrame(frame);
+      //this.setFrame(frame);
     }
 
     if (this.myType == ParticleType.DustExplosion) {
       let frame = Math.floor(15 * (this.life / this.lifeTime));
       // let frame = Math.floor(15 * Math.pow(this.life / this.lifeTime, 0.65));
-      this.setFrame(frame);
+      //this.setFrame(frame);
     }
 
     if (this.myType == ParticleType.FireExplosion) {
       let frame = Math.floor(6 * (this.life / this.lifeTime));
       // let frame = Math.floor(15 * Math.pow(this.life / this.lifeTime, 0.65));
-      this.setFrame(frame);
+      //this.setFrame(frame);
     }
 
     this.vel.x += this.acc.x * delta;
