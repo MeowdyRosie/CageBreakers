@@ -26,6 +26,7 @@ const images: Image[] = [
   image("ui/runetablet_node_inactive", "runetablet_node_inactive"),
   image("ui/runetablet_runes", "runetablet_runes"),
   image("ui/runetablet_stripes", "runetablet_stripes"),
+  image("ui/runeprompt", "runeprompt"),
 
   // Titlescreen
   image("titlescreen/sky", "title_sky"),
@@ -44,7 +45,7 @@ const spritesheets: SpriteSheet[] = [
   spritesheet("characters/wolf", "wolf", 499, 758),
   spritesheet("characters/cage_front", "cage_front", 300, 425),
   spritesheet("characters/cage_back", "cage_back", 300, 425),
-  spritesheet("characters/DragonFire", "fire", 512, 512)
+  spritesheet("characters/DragonFire", "fire", 512, 512),
 ];
 
 /* Audios */

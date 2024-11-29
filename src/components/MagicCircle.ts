@@ -33,7 +33,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.interactive = interactive;
 
     if (!interactive) {
-      this.lineColor = 0xff0000;
+      this.lineColor = 0xffaaaa;
     }
 
     const points = 6;
@@ -174,8 +174,8 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.pathGraphics = scene.add.graphics();
     this.add(this.pathGraphics);
     this.lineOutline.add(this.pathGraphics, {
-      thickness: interactive ? 8 : 4,
-      outlineColor: interactive ? 0x00cccc : 0xffaaaa,
+      thickness: interactive ? 8 : 3,
+      outlineColor: interactive ? 0x00cccc : 0xff0000,
       quality: 0.1,
     });
 
@@ -231,7 +231,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       this.path = this.scene.add.path(0, 0);
       this.path.startPoint.set(this.currentPath[0].x, this.currentPath[0].y);
       this.pathGraphics.clear();
-      this.pathGraphics.lineStyle(10, this.lineColor);
+      this.pathGraphics.lineStyle(this.interactive ? 10 : 3, this.lineColor);
     }
     if (this.currentPath.length >= 2) {
       this.currentPath.forEach((path) => {
