@@ -9,7 +9,14 @@ export class Dragon extends Phaser.GameObjects.Container {
 	public dragon: Phaser.GameObjects.Sprite;
 	public IsApproaching: boolean = false;
 	public isCompleted: boolean = false;
+	// Define the lerp parameters
+	private startX = 100;
+	private endX = 700;
+	private duration = 2000; // Duration in milliseconds
+	private elapsedTime = 0;
 
+	private lerpActive = true;
+	private xtest = 0;
 	private idleTimer: TimerEvent;
 	private approachingTimeLine: Timeline;
 
@@ -22,16 +29,16 @@ export class Dragon extends Phaser.GameObjects.Container {
 		super(scene, x, y);
 		scene.add.existing(this);
 
+
 		this.dragon = scene.add
 			.sprite(0, 0, "dragon_walk")
 			.setScale(scale)
 			.setOrigin(0.5, 0.5);
 		this.add(this.dragon);
-
 		this.idleTimer = this.scene.time.addEvent({
 			delay: 1000, // ms
 			callback: () => {
-				this.dragon.scaleX *= -1;
+				//this.dragon.toggleFlipX();
 			},
 			//args: [],
 			loop: true,
@@ -101,6 +108,27 @@ export class Dragon extends Phaser.GameObjects.Container {
 			  }
 			}*/
 		]);
+	}
+
+	update(time: number, delta: number, duration: number) {
+		/*console.log("update");
+		if (this.lerpActive) {
+			this.elapsedTime += delta;
+
+			// Calculate progress (0 to 1)
+			const t = Math.min(this.elapsedTime / duration, 1);
+
+			this.dragon.scale = Phaser.Math.Linear(0.8, 1, t);
+			// Interpolate position using Phaser.Math.Linear
+			this.dragon.y  = Phaser.Math.Linear(0, 300, t);
+			console.log(this.dragon.y);
+
+			// Stop lerping when complete
+			if (t === 1) {
+				this.lerpActive = false;
+				console.log('Lerp complete!');
+			}
+		}*/
 	}
 
 	stopIdle() {

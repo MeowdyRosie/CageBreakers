@@ -34,7 +34,7 @@ export class GameScene extends BaseScene {
 
     this.background = this.add.image(this.CX, 0, "background");
 
-    this.dragon = new Dragon(this, this.CX, 300, 1);
+    this.dragon = new Dragon(this, this.CX, 200, 1);
     this.level = new Level(difficulty, level);
 
     // Dragon moving
@@ -138,6 +138,8 @@ export class GameScene extends BaseScene {
   finishGame() {}
 
   update(time: number, delta: number) {
+    console.log(this.level.getTime());
+    this.dragon.update(time,delta, (this.level.getTime() -5000));
     //console.log(this.timer.getOverallRemainingSeconds());
   }
 

@@ -31,7 +31,7 @@ export class Level {
 
   getTime() {
     // default time 2 mins, every level we cull 2s until 20s
-    let time = 120;
+    let time = 20;
     let timeMod = 1;
     let timeStep = 2;
     let cap = 20;
