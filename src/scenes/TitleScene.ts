@@ -94,24 +94,24 @@ export class TitleScene extends BaseScene {
       x: this.CX,
       y: this.CY,
       size: 80,
-      color: "#000",
+      color: "#fff",
       text: "Tap to focus",
     });
     this.tap.setOrigin(0.5);
     this.tap.setAlpha(-1);
-    this.tap.setStroke("#FFF", 4);
+    this.tap.setStroke("#000", 12);
     this.tap.setPadding(2);
 
     this.version = this.addText({
       x: this.W,
       y: this.H,
       size: 40,
-      color: "#000",
+      color: "#fff",
       text: version,
     });
     this.version.setOrigin(1, 1);
     this.version.setAlpha(1);
-    this.version.setStroke("#FFF", 4);
+    this.version.setStroke("#000", 12);
     this.version.setPadding(2);
 
     this.credits = this.add.container(0, 0);
