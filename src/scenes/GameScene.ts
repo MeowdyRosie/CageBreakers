@@ -206,6 +206,11 @@ export class GameScene extends BaseScene {
 
   update(time: number, delta: number) {
     this.circle.update(time, delta);
+    if (this.cameraShakeValue > 0) {
+      this.cameras.main.x = this.cameraShakeValue * Math.sin(100 * time);
+    } else {
+      this.cameras.main.x = 0;
+    }
   }
 
   gameOver() {
