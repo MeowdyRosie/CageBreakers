@@ -35,6 +35,7 @@ const images: Image[] = [
   image("ui/no_music", "no_music"),
   image("ui/sound", "sound"),
   image("ui/no_sound", "no_sound"),
+  image("ui/gameover", "gameover"),
 
   // Titlescreen
   image("titlescreen/background_base", "bg_base"),
