@@ -1,6 +1,7 @@
 import { BaseScene } from "@/scenes/BaseScene";
 import { Button } from "./elements/Button";
 import OutlinePipelinePlugin from "phaser3-rex-plugins/plugins/outlinepipeline-plugin";
+import { Particles } from "./Particles";
 
 export default class MagicCircle extends Phaser.GameObjects.Container {
   public declare scene: BaseScene;
@@ -17,6 +18,12 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
   private lineColor = 0xffffff;
 
   private lineOutline: OutlinePipelinePlugin;
+
+  private particles: Particles;
+
+  update(time: number, delta: number): void {
+    this.particles.update(time, delta);
+  }
 
   constructor(
     scene: BaseScene,
@@ -185,6 +192,8 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       this.scene.input.on("pointerup", this.#stopDrag, this);
       this.scene.input.on("gameout", this.#stopDrag, this);
     }
+    this.particles = new Particles(this.scene);
+    this.add(this.particles);
   }
 
   #startDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
@@ -223,6 +232,12 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     if (this.currentPath[0]) {
       this.path.lineTo(pointer.x - this.x, pointer.y - this.y);
       this.path.draw(this.pathGraphics);
+      this.particles.createShells(
+        pointer.x - this.x,
+        pointer.y - this.y,
+        1,
+        0xffffff
+      );
     }
   }
 

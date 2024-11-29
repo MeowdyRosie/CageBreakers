@@ -141,7 +141,8 @@ export class GameScene extends BaseScene {
 
   update(time: number, delta: number) {
     console.log(this.level.getTime());
-    this.dragon.update(time,delta, (this.level.getTime() -5000));
+    this.dragon.update(time, delta, this.level.getTime() - 5000);
+    this.circle.update(time, delta);
     //console.log(this.timer.getOverallRemainingSeconds());
   }
 
