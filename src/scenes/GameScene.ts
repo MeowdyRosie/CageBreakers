@@ -40,6 +40,23 @@ export class GameScene extends BaseScene {
     this.fade(false, 200, 0x000000);
 
     this.background = this.add.image(this.CX, 0, "background");
+
+    this.backgroundAnim = this.add
+      .sprite(0, 0, "background_fire")
+      .setScale(1)
+      .setOrigin(0, 0);
+
+    this.backgroundAnim.anims.create({
+      key: "fire",
+      frames: this.anims.generateFrameNames("background_fire", {
+        frames: [0, 1, 2, 3],
+      }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.backgroundAnim.play('fire');
+
     this.dragon = new Dragon(this, this.CX, 340, 0.3);
     this.level = new Level(difficulty, level);
 
@@ -63,22 +80,6 @@ export class GameScene extends BaseScene {
       },
       //args: [],
     });
-
-    this.backgroundAnim = this.add
-      .sprite(0, 0, "background_fire")
-      .setScale(1)
-      .setOrigin(0, 0);
-
-    this.backgroundAnim.anims.create({
-      key: "fire",
-      frames: this.anims.generateFrameNames("background_fire", {
-        frames: [0, 1, 2, 3],
-      }),
-      frameRate: 8,
-      repeat: -1,
-    });
-
-    this.backgroundAnim.play('fire');
 
     if (!this.musicFirst) {
       this.musicFirst = new Music(this, "m_first", { volume: 0.4 });
