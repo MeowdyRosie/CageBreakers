@@ -1,11 +1,11 @@
 {
   "team": "The Kobold Union",
-  "title": "The Kobold Union",
-  "description": "We make game, but faster!",
+  "title": "Ash and Arcana",
+  "description": "Your party members have been taken prison by spell trap when trying to claim the dragons hord for themselves. Rescue them before the dragon gets to you!",
   "itch": {
     "upload": false,
     "username": "arcticfqx",
-    "game": "the-kobold-union"
+    "game": "ash-and-arcana"
   },
   "neutralino": {
     "allow": ["app.exit", "window.center"]
