@@ -104,14 +104,26 @@ export class Prisoners extends Phaser.GameObjects.Container {
       repeat: -1,
     });
 
+    this.prisoners.anims.create({
+      key: "burn",
+      frames: this.scene.anims.generateFrameNames(
+        this.creatures[randomCreature],
+        {
+          frames: [4, 5],
+        }
+      ),
+      frameRate: 4,
+      repeat: -1,
+    });
+
     this.prisoners.playAfterDelay("idle", Math.random() * 500);
 
     this.runeprompt = this.scene.add
-      .sprite(0, 0, "runeprompt")
+      .sprite(0, -50, "runeprompt")
       .setScale(1.25, 1.25);
     this.add(this.runeprompt);
 
-    this.circle = new MagicCircle(scene, 0, 0, 50, scale * 0.5, false);
+    this.circle = new MagicCircle(scene, 0, -50, 50, scale * 0.5, false);
     this.add(this.circle);
     this.setRandomSpellPattern();
   }
@@ -156,5 +168,9 @@ export class Prisoners extends Phaser.GameObjects.Container {
       x: 1000,
       duration: duration,
     });
+  }
+
+  setFire(){
+    this.prisoners.play("burn");
   }
 }
