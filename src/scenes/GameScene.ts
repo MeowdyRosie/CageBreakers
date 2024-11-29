@@ -16,6 +16,7 @@ type GameSceneData = {
 
 export class GameScene extends BaseScene {
   private background: Phaser.GameObjects.Image;
+  private backgroundAnim: Phaser.GameObjects.Sprite;
   private gameOverText: Phaser.GameObjects.Image;
   private prisoners: Prisoners[];
   private dragon: Dragon;
@@ -63,6 +64,22 @@ export class GameScene extends BaseScene {
       //args: [],
     });
 
+    this.backgroundAnim = this.add
+      .sprite(0, 0, "background_fire")
+      .setScale(1)
+      .setOrigin(0, 0);
+
+    this.backgroundAnim.anims.create({
+      key: "fire",
+      frames: this.anims.generateFrameNames("background_fire", {
+        frames: [0, 1, 2, 3],
+      }),
+      frameRate: 8,
+      repeat: -1,
+    });
+
+    this.backgroundAnim.play('fire');
+
     if (!this.musicFirst) {
       this.musicFirst = new Music(this, "m_first", { volume: 0.4 });
     }
@@ -87,6 +104,7 @@ export class GameScene extends BaseScene {
 
   setupGame() {
     this.prisoners = [];
+    this.backgroundAnim.play("fire");
     const prisonerCount = this.level.getCages();
     const frontRow = Math.ceil(prisonerCount / 2);
     const backRow = Math.floor(prisonerCount / 2);
