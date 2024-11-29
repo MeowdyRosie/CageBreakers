@@ -7,6 +7,7 @@ import {Dragon} from "@/components/Dragon";
 import {Difficulty, Level} from "@/components/Levels";
 import {UI} from "@/components/UI";
 import {Timer} from "@/components/Timer";
+import {Music} from "@/components/Music";
 
 type GameSceneData = {
   level: number;
@@ -24,8 +25,10 @@ export class GameScene extends BaseScene {
   private timerObject: Timer;
   private ui: UI;
   private level: Level;
+  public musicFirst: Phaser.Sound.WebAudioSound;
   public win: Phaser.Sound.BaseSound;
   public lose: Phaser.Sound.BaseSound;
+
   constructor() {
     super({key: "GameScene"});
   }
@@ -59,6 +62,12 @@ export class GameScene extends BaseScene {
       },
       //args: [],
     });
+
+    if (!this.musicFirst) {
+      this.musicFirst = new Music(this, "m_first", {volume: 0.4});
+    }
+    this.musicFirst.play();
+
     this.setupGame();
 
     this.timerObject = new Timer(this, -200, 200, 200, 0xfa9425);
@@ -101,7 +110,7 @@ export class GameScene extends BaseScene {
 
     this.timer = this.time.addEvent({
       delay: this.level.getTime() + 2500, // ms
-      callback: () =>{
+      callback: () => {
         this.gameOver();
       },
     });
@@ -171,16 +180,15 @@ export class GameScene extends BaseScene {
       this.lose.play();
       var timer = this.time.addEvent({
         delay: 5000, // ms
-        callback: () =>{
+        callback: () => {
           this.scene.start("TitleScene");
         },
       });
-    }
-    else{
+    } else {
       this.win.play();
       var timer = this.time.addEvent({
         delay: 5000, // ms
-        callback: () =>{
+        callback: () => {
           this.endRound();
         },
       });
@@ -198,6 +206,6 @@ export class GameScene extends BaseScene {
   }
 }
 
-export const LevelState ={
+export const LevelState = {
   completed: false
 }

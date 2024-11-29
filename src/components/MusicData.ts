@@ -8,7 +8,7 @@ const Data = {
 	m_first: {
 		offset: 0,
 		bpm: 140,
-		loop: true,
+		loop: false,
 		start: 0 + overlap,
 		end: 760286 / 48000 + overlap,
 	},
