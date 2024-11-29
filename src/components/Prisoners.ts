@@ -26,6 +26,7 @@ const patterns = [
 export class Prisoners extends Phaser.GameObjects.Container {
   public declare scene: BaseScene;
   private prisoners: Phaser.GameObjects.Sprite;
+  private runeprompt: Phaser.GameObjects.Sprite;
   private circle: MagicCircle;
   private spellEdges: string[];
   private cageBack: Phaser.GameObjects.Sprite;
@@ -105,7 +106,12 @@ export class Prisoners extends Phaser.GameObjects.Container {
 
     this.prisoners.playAfterDelay("idle", Math.random() * 500);
 
-    this.circle = new MagicCircle(scene, 0, 0, 50, scale, false);
+    this.runeprompt = this.scene.add
+      .sprite(0, 0, "runeprompt")
+      .setScale(1.25, 1.25);
+    this.add(this.runeprompt);
+
+    this.circle = new MagicCircle(scene, 0, 0, 50, scale * 0.5, false);
     this.add(this.circle);
     this.setRandomSpellPattern();
   }
@@ -122,7 +128,11 @@ export class Prisoners extends Phaser.GameObjects.Container {
   }
 
   setFree() {
-    this.circle.setLineColor(0x00aa00);
+    // this.circle.setLineColor(0x00aa00);
+    this.circle.setVisible(false);
+    this.runeprompt.setVisible(false);
+    this.cageBack.setVisible(false);
+    this.cageFront.setVisible(false);
     this.prisoners.play("run");
     this.scene.tweens.add({
       targets: this.cageBack,
@@ -138,7 +148,6 @@ export class Prisoners extends Phaser.GameObjects.Container {
       ease: "Linear",
       duration: 1000,
     });
-    this.scene.flash(500);
   }
 
   flee(duration: number) {

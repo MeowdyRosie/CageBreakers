@@ -101,6 +101,8 @@ export class GameScene extends BaseScene {
           kobold.patternsLeft--;
           if (kobold.patternsLeft == 0) {
             kobold.setFree();
+            kobold.flee(2000);
+            this.flash(500);
           } else {
             kobold.setRandomSpellPattern();
           }
