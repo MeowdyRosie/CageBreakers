@@ -28,10 +28,15 @@ Music
 `;
 
 export class TitleScene extends BaseScene {
-  public sky: Phaser.GameObjects.Image;
-  public background: Phaser.GameObjects.Image;
-  public foreground: Phaser.GameObjects.Image;
-  public character: Phaser.GameObjects.Image;
+  public bgbase: Phaser.GameObjects.Image;
+  public bg1: Phaser.GameObjects.Image;
+  public bg2: Phaser.GameObjects.Image;
+  public bg3: Phaser.GameObjects.Image;
+  public bg4: Phaser.GameObjects.Image;
+  public bg5: Phaser.GameObjects.Image;
+  public bg6: Phaser.GameObjects.Image;
+  public text1: Phaser.GameObjects.Image;
+  public text2: Phaser.GameObjects.Image;
 
   public credits: Phaser.GameObjects.Container;
   public title: Phaser.GameObjects.Text;
@@ -52,18 +57,80 @@ export class TitleScene extends BaseScene {
   create(): void {
     this.fade(false, 200, 0x000000);
 
-    this.sky = this.add.image(this.CX, this.CY, "dragon_sit");
-    this.sky.setScale(3);
-    this.background = this.add.image(this.CX, this.CY, "fire");
-    this.containToScreen(this.background);
-    this.character = this.add.image(this.CX, this.CY, "kobold");
-    this.containToScreen(this.character);
+    this.bgbase = this.add.image(this.CX, this.CY, "bg_base");
+    this.bg1 = this.add
+      .image(this.CX, this.CY, "bg_layer1")
+      .setScale(1.5)
+      .setY(this.CY - 100);
+    this.bg2 = this.add
+      .image(this.CX, this.CY, "bg_layer2")
+      .setX(this.CX + 200);
+    this.bg3 = this.add
+      .image(this.CX, this.CY, "bg_layer3")
+      .setX(this.CX - 200);
+    this.bg4 = this.add
+      .image(this.CX, this.CY, "bg_layer4")
+      .setScale(1.5)
+      .setY(this.CY - 300);
+    this.bg5 = this.add
+      .image(this.CX, this.CY, "bg_layer5")
+      .setY(this.CY + 250)
+      .setX(this.CX + 250);
+    this.bg6 = this.add
+      .image(this.CX, this.CY, "bg_layer6")
+      .setY(this.CY + 250)
+      .setX(this.CX - 250);
+    /*
+    this.text1 = this.add.image(this.CX, this.CY, "mainmenu_1");
+    this.text2 = this.add.image(this.CX, this.CY, "mainmenu_2");
+*/
+    this.tweens.add({
+      targets: this.bg1,
+      scale: 1,
+      y: this.CY,
+      ease: "Cubic",
+      duration: 1000,
+      delay: 100,
+    });
 
-    this.background.setVisible(false);
-    this.background.setAlpha(0);
-    this.background.y += 4000;
-    this.character.y += 1000;
-    this.character.scale = 0.5;
+    this.tweens.add({
+      targets: this.bg2,
+      x: this.CX,
+      ease: "Cubic",
+      duration: 2000,
+      delay: 300,
+    });
+    this.tweens.add({
+      targets: this.bg3,
+      x: this.CX,
+      ease: "Cubic",
+      duration: 2000,
+      delay: 300,
+    });
+    this.tweens.add({
+      targets: this.bg4,
+      y: this.CY,
+      scale: 1,
+      ease: "Cubic",
+      duration: 2000,
+      delay: 600,
+    });
+    this.tweens.add({
+      targets: this.bg5,
+      y: this.CY,
+      x: this.CX,
+      ease: "Cubic",
+      duration: 2000,
+      delay: 600,
+    });
+    this.tweens.add({
+      targets: this.bg6,
+      y: this.CY,
+      x: this.CX,
+      ease: "Cubic",
+      duration: 2000,
+      delay: 600,
+    });
 
     this.title = this.addText({
       x: this.W / 2,
@@ -72,6 +139,7 @@ export class TitleScene extends BaseScene {
       color: "#000",
       text: "Cage Breakers",
     });
+
     this.title.setOrigin(0.5);
     this.title.setStroke("#FFF", 8);
     this.title.setPadding(2);
@@ -172,12 +240,7 @@ export class TitleScene extends BaseScene {
   }
 
   update(time: number, delta: number) {
-    if (this.background.visible) {
-      this.background.y += 0.02 * (this.CY - this.background.y);
-      this.character.y += 0.01 * (this.CY - this.character.y);
-
-      this.background.alpha += 0.03 * (1 - this.background.alpha);
-
+    if (false) {
       this.title.alpha +=
         0.02 * ((this.title.visible ? 1 : 0) - this.title.alpha);
       this.subtitle.alpha +=
@@ -192,7 +255,7 @@ export class TitleScene extends BaseScene {
       this.tap.alpha += 0.01 * (1 - this.tap.alpha);
 
       if (this.musicTitle.seek > 0) {
-        this.background.setVisible(true);
+        //this.background.setVisible(true);
         this.tap.setVisible(false);
       }
     }
@@ -205,7 +268,7 @@ export class TitleScene extends BaseScene {
   }
 
   progress() {
-    if (!this.background.visible) {
+    if (!true) {
       this.onBar(1);
     } else if (!this.subtitle.visible) {
       this.title.setVisible(true);
