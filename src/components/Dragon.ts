@@ -7,17 +7,11 @@ import Timeline = Phaser.Time.Timeline;
 export class Dragon extends Phaser.GameObjects.Container {
 	public declare scene: BaseScene;
 	public dragon: Phaser.GameObjects.Sprite;
+	public fire: Phaser.GameObjects.Sprite;
 	public IsApproaching: boolean = false;
 	public isCompleted: boolean = false;
-	private endScale = 1.2;
-	// Define the lerp parameters
-	private startX = 100;
-	private endX = 700;
-	private duration = 2000; // Duration in milliseconds
-	private elapsedTime = 0;
-
-	private lerpActive = true;
-	private xtest = 0;
+	private endPosy = 90;
+	private scaleDragon = 1.4;
 	private idleTimer: TimerEvent;
 	private approachingTimeLine: Timeline;
 
@@ -43,8 +37,8 @@ export class Dragon extends Phaser.GameObjects.Container {
 			delay: 1500, // ms
 			callback: () => {
 				this.dragon.toggleFlipX();
-				this.dragon.y  = Phaser.Math.Linear(340, 225, t);
-				this.dragon.scale = Phaser.Math.Linear(0.5, 1.3, t);
+				this.dragon.y  = Phaser.Math.Linear(140, this.endPosy, t);
+				this.dragon.scale = Phaser.Math.Linear(0.5, this.scaleDragon, t);
 				t += step;
 			},
 			//args: [],
@@ -56,49 +50,66 @@ export class Dragon extends Phaser.GameObjects.Container {
 				run: () => {
 					this.dragon.destroy();
 					this.dragon = this.scene.add
-						.sprite(0, 225, "dragon_sit")
-						.setScale(1.2)
+						.sprite(0, this.endPosy, "dragon_sit")
+						.setScale(this.scaleDragon)
 						.setOrigin(0.5, 0.5);
 					this.add(this.dragon);
 				},
 
 			}, {
-				at: 3000,
+				at: 1000,
 				run: () => {
 					this.dragon.destroy();
 					this.dragon = this.scene.add
-						.sprite(0, 225, "dragon_charge")
-						.setScale(1.2)
+						.sprite(0, this.endPosy, "dragon_charge")
+						.setScale(this.scaleDragon)
 						.setOrigin(0.5, 0.5);
 					this.add(this.dragon);
 				},
 
 			}, {
-				at: 3500,
+				at: 2000,
 				run: () => {
 					this.dragon.destroy();
 					this.dragon = this.scene.add
-						.sprite(0, 225, "dragon_fire")
-						.setScale(1.2)
+						.sprite(0, this.endPosy, "dragon_fire")
+						.setScale(this.scaleDragon)
 						.setOrigin(0.5, 0.5);
 					this.add(this.dragon);
-				},
+					this.fire = scene.add
+						.sprite(0, this.endPosy+ 30, "dragon_firing")
+						.setScale(this.scaleDragon)
+						.setOrigin(0.5, 0.5);
+					this.fire.setZ(10);
+					this.fire.anims.create({
+						key: "fire",
+						frames: scene.anims.generateFrameNames("dragon_firing", {
+							frames: [0, 1, 2, 3],
+						}),
+						frameRate: 4,
+						repeat: -1,
+					});
+					this.add(this.fire);
+					this.fire.play("fire");
+					this.emit("burnPrisoners");
+					},
 
 			}, {
-				at: 5000,
+				at: 4000,
 				run: () => {
+					this.fire.destroy();
 					this.dragon.destroy();
 					if(this.isCompleted)
 					{
 						this.dragon = this.scene.add
-							.sprite(0, 225, "dragon_anger")
-							.setScale(1.2)
+							.sprite(0, this.endPosy, "dragon_anger")
+							.setScale(this.scaleDragon)
 							.setOrigin(0.5, 0.5);
 					}
 					else{
 						this.dragon = this.scene.add
-							.sprite(0, 225, "dragon_smug")
-							.setScale(1.2)
+							.sprite(0, this.endPosy, "dragon_smug")
+							.setScale(this.scaleDragon)
 							.setOrigin(0.5, 0.5);
 					}
 
