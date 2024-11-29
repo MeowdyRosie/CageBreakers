@@ -26,12 +26,12 @@ const images: Image[] = [
   image("ui/runetablet_node_inactive", "runetablet_node_inactive"),
   image("ui/runetablet_runes", "runetablet_runes"),
   image("ui/runetablet_stripes", "runetablet_stripes"),
+  image("ui/runeprompt", "runeprompt"),
   image("ui/music", "music"),
   image("ui/no_music", "no_music"),
   image("ui/sound", "sound"),
   image("ui/no_sound", "no_sound"),
 
-  
   // Titlescreen
   image("titlescreen/sky", "title_sky"),
   image("titlescreen/background", "title_background"),
