@@ -41,6 +41,7 @@ export class Dragon extends Phaser.GameObjects.Container {
         this.footstep.play();
         this.dragon.y = Phaser.Math.Linear(200, this.endPosy, t);
         this.dragon.scale = Phaser.Math.Linear(0.3, this.scaleDragon, t);
+        console.log(`${t} - ${this.dragon.y} - ${this.dragon.scale} `);
         t += step;
       },
       //args: [],
