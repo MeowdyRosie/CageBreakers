@@ -1,6 +1,7 @@
 import { BaseScene } from "@/scenes/BaseScene";
 import { Button } from "./elements/Button";
 import OutlinePipelinePlugin from "phaser3-rex-plugins/plugins/outlinepipeline-plugin";
+import { Particles } from "./Particles";
 
 export default class MagicCircle extends Phaser.GameObjects.Container {
   public declare scene: BaseScene;
@@ -18,6 +19,12 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
 
   private lineOutline: OutlinePipelinePlugin;
 
+  private particles: Particles;
+
+  update(time: number, delta: number): void {
+    this.particles.update(time, delta);
+  }
+
   constructor(
     scene: BaseScene,
     x: number,
@@ -33,7 +40,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.interactive = interactive;
 
     if (!interactive) {
-      this.lineColor = 0xff0000;
+      this.lineColor = 0xffaaaa;
     }
 
     const points = 6;
@@ -45,20 +52,72 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       "rexOutlinePipeline"
     ) as OutlinePipelinePlugin;
 
-    type SpriteButton = Button & { sprite?: Phaser.GameObjects.Sprite };
+    if (interactive) {
+      const tabletStripes = scene.add
+        .sprite(0, 0, "runetablet_stripes")
+        .setScale(0.625);
+      const tabletRunes = scene.add
+        .sprite(0, 0, "runetablet_runes")
+        .setScale(0.625);
+      this.add(
+        scene.add
+          .sprite(0, 0, "runetablet_base")
+          .setScale(0.625)
+          .setAlpha(0.1, 0.1, 1, 1)
+          .setCrop(0, 0, 1230, 615)
+      );
+      this.add(
+        scene.add
+          .sprite(0, 0, "runetablet_base")
+          .setScale(0.625)
+          .setCrop(0, 615, 1230, 615)
+      );
+      this.add(tabletStripes);
+      this.add(tabletRunes);
+      scene.tweens
+        .add({
+          from: 0,
+          to: 1,
+          duration: 60000,
+          targets: tabletRunes,
+          loop: Number.MAX_SAFE_INTEGER,
+          onUpdate(tween) {
+            const rot = tween.progress * Math.PI * 2;
+            tabletStripes.setRotation(rot);
+            tabletRunes.setRotation(-rot);
+          },
+        })
+        .play();
+    }
 
-    const addButton = (x: number, y: number, index: number, tint: number) => {
+    type SpriteButton = Button & {
+      sprite?: Phaser.GameObjects.Sprite;
+      sprite2?: Phaser.GameObjects.Sprite;
+    };
+
+    const addButton = (x: number, y: number, index: number) => {
       const btn: SpriteButton = new Button(scene, x, y);
       btn.setSize(100, 100);
       if (interactive) {
         btn.setInteractive();
         const buttonSprite = scene.add
-          .sprite(0, 0, "circle")
-          .setScale(scale)
-          .setTint(tint)
+          .sprite(0, 0, "runetablet_node_inactive")
+          .setScale(scale * 0.625)
           .setOrigin(0.5, 0.5);
+        buttonSprite.preFX
+          ?.addColorMatrix()
+          .hue(Math.floor((Math.random() * 360) / 45) * 45);
+        const buttonSprite2 = scene.add
+          .sprite(0, 0, "runetablet_node_active")
+          .setScale(scale * 0.625)
+          .setOrigin(0.5, 0.5);
+        buttonSprite2.preFX
+          ?.addColorMatrix()
+          .hue(Math.floor((Math.random() * 360) / 45) * 45);
         btn.sprite = buttonSprite;
+        btn.sprite2 = buttonSprite2;
         btn.add(buttonSprite);
+        btn.add(buttonSprite2);
       }
       btn.setName(index.toString());
       this.buttons.push(btn);
@@ -66,13 +125,12 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       return btn;
     };
     {
-      const button = addButton(0, 0, 0, 0x0000ff);
+      const button = addButton(0, 0, 0);
       button
         .on("pointerover", () => {
           this.scene.tweens.add({
             targets: button.sprite,
-            scale: scale * 1.2,
-            tint: 0x00ffff,
+            scale: scale * 1.2 * 0.625,
             ease: "Linear",
             duration: 100,
           });
@@ -80,8 +138,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
         .on("pointerout", () => {
           this.scene.tweens.add({
             targets: button.sprite,
-            scale: scale * 1,
-            tint: 0x0000ff,
+            scale: scale * 0.625,
             ease: "Linear",
             duration: 100,
           });
@@ -90,11 +147,10 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
         const p = Math.PI * 2 * (i / points) + (Math.PI * 3) / points;
         const x = Math.cos(-p) * radius;
         const y = Math.sin(-p) * radius;
-        const button = addButton(x, y, i + 1, 0xff0000);
+        const button = addButton(x, y, i + 1);
         button
           .on("pointerover", () => {
             if (this.currentPath.indexOf(button) < 0) {
-              console.log("found", button.name);
               this.scene.tweens.add({
                 targets: button,
                 scale: scale * 1.2,
@@ -125,8 +181,8 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     this.pathGraphics = scene.add.graphics();
     this.add(this.pathGraphics);
     this.lineOutline.add(this.pathGraphics, {
-      thickness: 8,
-      outlineColor: 0x00cccc,
+      thickness: interactive ? 8 : 3,
+      outlineColor: interactive ? 0x00cccc : 0xff0000,
       quality: 0.1,
     });
 
@@ -136,6 +192,8 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       this.scene.input.on("pointerup", this.#stopDrag, this);
       this.scene.input.on("gameout", this.#stopDrag, this);
     }
+    this.particles = new Particles(this.scene);
+    this.add(this.particles);
   }
 
   #startDrag(pointer: Phaser.Input.Pointer, buttons: Button[]): void {
@@ -174,6 +232,12 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
     if (this.currentPath[0]) {
       this.path.lineTo(pointer.x - this.x, pointer.y - this.y);
       this.path.draw(this.pathGraphics);
+      this.particles.createShells(
+        pointer.x - this.x,
+        pointer.y - this.y,
+        1,
+        0xffffff
+      );
     }
   }
 
@@ -182,7 +246,7 @@ export default class MagicCircle extends Phaser.GameObjects.Container {
       this.path = this.scene.add.path(0, 0);
       this.path.startPoint.set(this.currentPath[0].x, this.currentPath[0].y);
       this.pathGraphics.clear();
-      this.pathGraphics.lineStyle(10, this.lineColor);
+      this.pathGraphics.lineStyle(this.interactive ? 10 : 3, this.lineColor);
     }
     if (this.currentPath.length >= 2) {
       this.currentPath.forEach((path) => {
